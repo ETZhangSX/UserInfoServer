@@ -1,0 +1,33 @@
+
+module LifeService
+{
+    struct UserInfo
+    {
+        0 require string name;
+        1 require string phone;
+        2 require string gender;
+        3 require string avatar_url;
+        4 require string registration_time;
+        5 require int    group;
+    };
+
+    struct Column
+    {
+        0 require string columnName;
+        1 require bool   DBInt;
+        2 require string columnValue;
+    };
+    
+    interface DataService
+    {
+        int hasUser(string wx_id, out bool sRsp);
+        int createUser(string wx_id, UserInfo UserInfo);
+        int getUserInfo(string wx_id, out UserInfo sRsp);
+        int getGroupInfo(out map<int, string> groupInfo);
+        int getGroupByUserId(string wx_id, out string group);
+        int getGroupByGroupId(int groupId, out string group);
+        int insertData(string sTableName, vector<Column> sColumns);
+        int queryData(string sTableName, vector<string> sColumns, string sCondition, out vector<map<string, string>> sRsp);
+    };
+
+}; 

@@ -1,0 +1,18 @@
+module LifeService{
+    struct UserInfo
+    {
+        0 require string name;
+        1 require string phone;
+        2 require string gender;
+        3 require string avatar_url;
+        4 require string registration_time;
+        5 require int    group;
+    };
+    
+    interface UserInfoService{
+        int signUp(string wx_id, UserInfo userInfo);
+        int signIn(string wx_id, out UserInfo sRsp);
+        int getUserPermissionInfo(string wx_id);
+        int getGroupList(out map<int, string> groupInfo);
+    };
+};
