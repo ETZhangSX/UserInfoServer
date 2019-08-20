@@ -10,7 +10,7 @@ module LifeService{
     };
     
     interface UserInfoService{
-        int signUp(string wx_id, UserInfo userInfo);
+        int signUp(string wx_id, UserInfo userInfo, out int retCode);
         int signIn(string wx_id, out UserInfo sRsp);
         int getUserPermissionInfo(string wx_id);
         int getGroupList(out map<int, string> groupInfo);

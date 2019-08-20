@@ -20,7 +20,7 @@ type UserInfoService struct {
 }
 
 //SignUp is the proxy function for the method defined in the tars file, with the context
-func (_obj *UserInfoService) SignUp(Wx_id string, UserInfo *UserInfo, _opt ...map[string]string) (ret int32, err error) {
+func (_obj *UserInfoService) SignUp(Wx_id string, UserInfo *UserInfo, RetCode *int32, _opt ...map[string]string) (ret int32, err error) {
 
 	var length int32
 	var have bool
@@ -56,6 +56,11 @@ func (_obj *UserInfoService) SignUp(Wx_id string, UserInfo *UserInfo, _opt ...ma
 		return ret, err
 	}
 
+	err = _is.Read_int32(&(*RetCode), 3, true)
+	if err != nil {
+		return ret, err
+	}
+
 	_obj.setMap(len(_opt), _resp, _context, _status)
 	_ = length
 	_ = have
@@ -64,7 +69,7 @@ func (_obj *UserInfoService) SignUp(Wx_id string, UserInfo *UserInfo, _opt ...ma
 }
 
 //SignUpWithContext is the proxy function for the method defined in the tars file, with the context
-func (_obj *UserInfoService) SignUpWithContext(ctx context.Context, Wx_id string, UserInfo *UserInfo, _opt ...map[string]string) (ret int32, err error) {
+func (_obj *UserInfoService) SignUpWithContext(ctx context.Context, Wx_id string, UserInfo *UserInfo, RetCode *int32, _opt ...map[string]string) (ret int32, err error) {
 
 	var length int32
 	var have bool
@@ -95,6 +100,11 @@ func (_obj *UserInfoService) SignUpWithContext(ctx context.Context, Wx_id string
 	}
 	_is := codec.NewReader(tools.Int8ToByte(_resp.SBuffer))
 	err = _is.Read_int32(&ret, 0, true)
+	if err != nil {
+		return ret, err
+	}
+
+	err = _is.Read_int32(&(*RetCode), 3, true)
 	if err != nil {
 		return ret, err
 	}
@@ -436,13 +446,13 @@ func (_obj *UserInfoService) AddServantWithContext(imp _impUserInfoServiceWithCo
 }
 
 type _impUserInfoService interface {
-	SignUp(Wx_id string, UserInfo *UserInfo) (ret int32, err error)
+	SignUp(Wx_id string, UserInfo *UserInfo, RetCode *int32) (ret int32, err error)
 	SignIn(Wx_id string, SRsp *UserInfo) (ret int32, err error)
 	GetUserPermissionInfo(Wx_id string) (ret int32, err error)
 	GetGroupList(GroupInfo *map[int32]string) (ret int32, err error)
 }
 type _impUserInfoServiceWithContext interface {
-	SignUp(ctx context.Context, Wx_id string, UserInfo *UserInfo) (ret int32, err error)
+	SignUp(ctx context.Context, Wx_id string, UserInfo *UserInfo, RetCode *int32) (ret int32, err error)
 	SignIn(ctx context.Context, Wx_id string, SRsp *UserInfo) (ret int32, err error)
 	GetUserPermissionInfo(ctx context.Context, Wx_id string) (ret int32, err error)
 	GetGroupList(ctx context.Context, GroupInfo *map[int32]string) (ret int32, err error)
@@ -462,9 +472,10 @@ func signUp(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec
 	if err != nil {
 		return err
 	}
+	var RetCode int32
 	if withContext == false {
 		_imp := _val.(_impUserInfoService)
-		ret, err := _imp.SignUp(Wx_id, &UserInfo)
+		ret, err := _imp.SignUp(Wx_id, &UserInfo, &RetCode)
 		if err != nil {
 			return err
 		}
@@ -475,7 +486,7 @@ func signUp(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec
 		}
 	} else {
 		_imp := _val.(_impUserInfoServiceWithContext)
-		ret, err := _imp.SignUp(ctx, Wx_id, &UserInfo)
+		ret, err := _imp.SignUp(ctx, Wx_id, &UserInfo, &RetCode)
 		if err != nil {
 			return err
 		}
@@ -484,6 +495,11 @@ func signUp(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec
 		if err != nil {
 			return err
 		}
+	}
+
+	err = _os.Write_int32(RetCode, 3)
+	if err != nil {
+		return err
 	}
 
 	_ = length
