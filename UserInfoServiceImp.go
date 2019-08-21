@@ -1,6 +1,7 @@
 package main
 
 import (
+	"time"
 	"errors"
 
 	"LifeService"
@@ -14,6 +15,11 @@ type UserInfoServiceImp struct {
 
 //SignUp Create a new account
 func (imp *UserInfoServiceImp) SignUp(wx_id string, userInfo *LifeService.UserInfo, RetCode *int32) (int32, error) {
+	currentTime := time.Now().Format("2006-01-02 15:04:05")
+
+	userInfo.Group = 0
+	userInfo.Registration_time = currentTime
+	
 	iRet, err := imp.App.CreateUser(wx_id, userInfo)
 	if err != nil {
 		log.Error("Create user error with error message: ", err)
