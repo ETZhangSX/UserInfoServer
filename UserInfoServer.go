@@ -12,7 +12,7 @@ var log *rogger.Logger
 
 func NewUserInfoServiceImp() *UserInfoServiceImp { //Init service
 	app := new(LifeService.DataService)
-	obj := "LifeService.DataServer.Obj"
+	obj := "LifeService.DataServer.DataServiceObj"
 	comm.StringToProxy(obj, app)
 	return &UserInfoServiceImp{
 		App: app,
