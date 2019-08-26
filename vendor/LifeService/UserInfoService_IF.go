@@ -46,7 +46,7 @@ func (_obj *UserInfoService) SignUp(Wx_id string, UserInfo *UserInfo, RetCode *i
 	}
 	_resp := new(requestf.ResponsePacket)
 	ctx := context.Background()
-	err = _obj.s.Tars_invoke(ctx, 0, "signUp", _os.ToBytes(), _status, _context, _resp)
+	err = _obj.s.Tars_invoke(ctx, 0, "SignUp", _os.ToBytes(), _status, _context, _resp)
 	if err != nil {
 		return ret, err
 	}
@@ -94,7 +94,7 @@ func (_obj *UserInfoService) SignUpWithContext(ctx context.Context, Wx_id string
 		_status = _opt[1]
 	}
 	_resp := new(requestf.ResponsePacket)
-	err = _obj.s.Tars_invoke(ctx, 0, "signUp", _os.ToBytes(), _status, _context, _resp)
+	err = _obj.s.Tars_invoke(ctx, 0, "SignUp", _os.ToBytes(), _status, _context, _resp)
 	if err != nil {
 		return ret, err
 	}
@@ -138,7 +138,7 @@ func (_obj *UserInfoService) SignIn(Wx_id string, SRsp *UserInfo, _opt ...map[st
 	}
 	_resp := new(requestf.ResponsePacket)
 	ctx := context.Background()
-	err = _obj.s.Tars_invoke(ctx, 0, "signIn", _os.ToBytes(), _status, _context, _resp)
+	err = _obj.s.Tars_invoke(ctx, 0, "SignIn", _os.ToBytes(), _status, _context, _resp)
 	if err != nil {
 		return ret, err
 	}
@@ -181,7 +181,7 @@ func (_obj *UserInfoService) SignInWithContext(ctx context.Context, Wx_id string
 		_status = _opt[1]
 	}
 	_resp := new(requestf.ResponsePacket)
-	err = _obj.s.Tars_invoke(ctx, 0, "signIn", _os.ToBytes(), _status, _context, _resp)
+	err = _obj.s.Tars_invoke(ctx, 0, "SignIn", _os.ToBytes(), _status, _context, _resp)
 	if err != nil {
 		return ret, err
 	}
@@ -225,7 +225,7 @@ func (_obj *UserInfoService) GetUserPermissionInfo(Wx_id string, _opt ...map[str
 	}
 	_resp := new(requestf.ResponsePacket)
 	ctx := context.Background()
-	err = _obj.s.Tars_invoke(ctx, 0, "getUserPermissionInfo", _os.ToBytes(), _status, _context, _resp)
+	err = _obj.s.Tars_invoke(ctx, 0, "GetUserPermissionInfo", _os.ToBytes(), _status, _context, _resp)
 	if err != nil {
 		return ret, err
 	}
@@ -263,7 +263,7 @@ func (_obj *UserInfoService) GetUserPermissionInfoWithContext(ctx context.Contex
 		_status = _opt[1]
 	}
 	_resp := new(requestf.ResponsePacket)
-	err = _obj.s.Tars_invoke(ctx, 0, "getUserPermissionInfo", _os.ToBytes(), _status, _context, _resp)
+	err = _obj.s.Tars_invoke(ctx, 0, "GetUserPermissionInfo", _os.ToBytes(), _status, _context, _resp)
 	if err != nil {
 		return ret, err
 	}
@@ -298,7 +298,7 @@ func (_obj *UserInfoService) GetGroupList(GroupInfo *map[int32]string, _opt ...m
 	}
 	_resp := new(requestf.ResponsePacket)
 	ctx := context.Background()
-	err = _obj.s.Tars_invoke(ctx, 0, "getGroupList", _os.ToBytes(), _status, _context, _resp)
+	err = _obj.s.Tars_invoke(ctx, 0, "GetGroupList", _os.ToBytes(), _status, _context, _resp)
 	if err != nil {
 		return ret, err
 	}
@@ -358,7 +358,7 @@ func (_obj *UserInfoService) GetGroupListWithContext(ctx context.Context, GroupI
 		_status = _opt[1]
 	}
 	_resp := new(requestf.ResponsePacket)
-	err = _obj.s.Tars_invoke(ctx, 0, "getGroupList", _os.ToBytes(), _status, _context, _resp)
+	err = _obj.s.Tars_invoke(ctx, 0, "GetGroupList", _os.ToBytes(), _status, _context, _resp)
 	if err != nil {
 		return ret, err
 	}
@@ -393,6 +393,84 @@ func (_obj *UserInfoService) GetGroupListWithContext(ctx context.Context, GroupI
 		}
 
 		(*GroupInfo)[k1] = v1
+	}
+
+	_obj.setMap(len(_opt), _resp, _context, _status)
+	_ = length
+	_ = have
+	_ = ty
+	return ret, nil
+}
+
+//Test is the proxy function for the method defined in the tars file, with the context
+func (_obj *UserInfoService) Test(TestStr *string, _opt ...map[string]string) (ret int32, err error) {
+
+	var length int32
+	var have bool
+	var ty byte
+	_os := codec.NewBuffer()
+
+	var _status map[string]string
+	var _context map[string]string
+	if len(_opt) == 1 {
+		_context = _opt[0]
+	} else if len(_opt) == 2 {
+		_context = _opt[0]
+		_status = _opt[1]
+	}
+	_resp := new(requestf.ResponsePacket)
+	ctx := context.Background()
+	err = _obj.s.Tars_invoke(ctx, 0, "Test", _os.ToBytes(), _status, _context, _resp)
+	if err != nil {
+		return ret, err
+	}
+	_is := codec.NewReader(tools.Int8ToByte(_resp.SBuffer))
+	err = _is.Read_int32(&ret, 0, true)
+	if err != nil {
+		return ret, err
+	}
+
+	err = _is.Read_string(&(*TestStr), 1, true)
+	if err != nil {
+		return ret, err
+	}
+
+	_obj.setMap(len(_opt), _resp, _context, _status)
+	_ = length
+	_ = have
+	_ = ty
+	return ret, nil
+}
+
+//TestWithContext is the proxy function for the method defined in the tars file, with the context
+func (_obj *UserInfoService) TestWithContext(ctx context.Context, TestStr *string, _opt ...map[string]string) (ret int32, err error) {
+
+	var length int32
+	var have bool
+	var ty byte
+	_os := codec.NewBuffer()
+	var _status map[string]string
+	var _context map[string]string
+	if len(_opt) == 1 {
+		_context = _opt[0]
+	} else if len(_opt) == 2 {
+		_context = _opt[0]
+		_status = _opt[1]
+	}
+	_resp := new(requestf.ResponsePacket)
+	err = _obj.s.Tars_invoke(ctx, 0, "Test", _os.ToBytes(), _status, _context, _resp)
+	if err != nil {
+		return ret, err
+	}
+	_is := codec.NewReader(tools.Int8ToByte(_resp.SBuffer))
+	err = _is.Read_int32(&ret, 0, true)
+	if err != nil {
+		return ret, err
+	}
+
+	err = _is.Read_string(&(*TestStr), 1, true)
+	if err != nil {
+		return ret, err
 	}
 
 	_obj.setMap(len(_opt), _resp, _context, _status)
@@ -450,15 +528,17 @@ type _impUserInfoService interface {
 	SignIn(Wx_id string, SRsp *UserInfo) (ret int32, err error)
 	GetUserPermissionInfo(Wx_id string) (ret int32, err error)
 	GetGroupList(GroupInfo *map[int32]string) (ret int32, err error)
+	Test(TestStr *string) (ret int32, err error)
 }
 type _impUserInfoServiceWithContext interface {
 	SignUp(ctx context.Context, Wx_id string, UserInfo *UserInfo, RetCode *int32) (ret int32, err error)
 	SignIn(ctx context.Context, Wx_id string, SRsp *UserInfo) (ret int32, err error)
 	GetUserPermissionInfo(ctx context.Context, Wx_id string) (ret int32, err error)
 	GetGroupList(ctx context.Context, GroupInfo *map[int32]string) (ret int32, err error)
+	Test(ctx context.Context, TestStr *string) (ret int32, err error)
 }
 
-func signUp(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec.Reader, withContext bool) (err error) {
+func SignUp(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec.Reader, withContext bool) (err error) {
 	var length int32
 	var have bool
 	var ty byte
@@ -507,7 +587,7 @@ func signUp(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec
 	_ = ty
 	return nil
 }
-func signIn(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec.Reader, withContext bool) (err error) {
+func SignIn(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec.Reader, withContext bool) (err error) {
 	var length int32
 	var have bool
 	var ty byte
@@ -551,7 +631,7 @@ func signIn(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec
 	_ = ty
 	return nil
 }
-func getUserPermissionInfo(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec.Reader, withContext bool) (err error) {
+func GetUserPermissionInfo(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec.Reader, withContext bool) (err error) {
 	var length int32
 	var have bool
 	var ty byte
@@ -589,7 +669,7 @@ func getUserPermissionInfo(ctx context.Context, _val interface{}, _os *codec.Buf
 	_ = ty
 	return nil
 }
-func getGroupList(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec.Reader, withContext bool) (err error) {
+func GetGroupList(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec.Reader, withContext bool) (err error) {
 	var length int32
 	var have bool
 	var ty byte
@@ -644,29 +724,73 @@ func getGroupList(ctx context.Context, _val interface{}, _os *codec.Buffer, _is 
 	_ = ty
 	return nil
 }
+func Test(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec.Reader, withContext bool) (err error) {
+	var length int32
+	var have bool
+	var ty byte
+	var TestStr string
+	if withContext == false {
+		_imp := _val.(_impUserInfoService)
+		ret, err := _imp.Test(&TestStr)
+		if err != nil {
+			return err
+		}
+
+		err = _os.Write_int32(ret, 0)
+		if err != nil {
+			return err
+		}
+	} else {
+		_imp := _val.(_impUserInfoServiceWithContext)
+		ret, err := _imp.Test(ctx, &TestStr)
+		if err != nil {
+			return err
+		}
+
+		err = _os.Write_int32(ret, 0)
+		if err != nil {
+			return err
+		}
+	}
+
+	err = _os.Write_string(TestStr, 1)
+	if err != nil {
+		return err
+	}
+
+	_ = length
+	_ = have
+	_ = ty
+	return nil
+}
 
 //Dispatch is used to call the server side implemnet for the method defined in the tars file. withContext shows using context or not.
 func (_obj *UserInfoService) Dispatch(ctx context.Context, _val interface{}, req *requestf.RequestPacket, resp *requestf.ResponsePacket, withContext bool) (err error) {
 	_is := codec.NewReader(tools.Int8ToByte(req.SBuffer))
 	_os := codec.NewBuffer()
 	switch req.SFuncName {
-	case "signUp":
-		err := signUp(ctx, _val, _os, _is, withContext)
+	case "SignUp":
+		err := SignUp(ctx, _val, _os, _is, withContext)
 		if err != nil {
 			return err
 		}
-	case "signIn":
-		err := signIn(ctx, _val, _os, _is, withContext)
+	case "SignIn":
+		err := SignIn(ctx, _val, _os, _is, withContext)
 		if err != nil {
 			return err
 		}
-	case "getUserPermissionInfo":
-		err := getUserPermissionInfo(ctx, _val, _os, _is, withContext)
+	case "GetUserPermissionInfo":
+		err := GetUserPermissionInfo(ctx, _val, _os, _is, withContext)
 		if err != nil {
 			return err
 		}
-	case "getGroupList":
-		err := getGroupList(ctx, _val, _os, _is, withContext)
+	case "GetGroupList":
+		err := GetGroupList(ctx, _val, _os, _is, withContext)
+		if err != nil {
+			return err
+		}
+	case "Test":
+		err := Test(ctx, _val, _os, _is, withContext)
 		if err != nil {
 			return err
 		}

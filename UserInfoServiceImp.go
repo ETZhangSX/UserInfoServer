@@ -14,13 +14,13 @@ type UserInfoServiceImp struct {
 }
 
 //SignUp Create a new account
-func (imp *UserInfoServiceImp) SignUp(wx_id string, userInfo *LifeService.UserInfo, RetCode *int32) (int32, error) {
+func (imp *UserInfoServiceImp) SignUp(Wx_id string, UserInfo *LifeService.UserInfo, RetCode *int32) (int32, error) {
 	currentTime := time.Now().Format("2006-01-02 15:04:05")
 
-	userInfo.Group = 0
-	userInfo.Registration_time = currentTime
+	UserInfo.Group = 0
+	UserInfo.Registration_time = currentTime
 	
-	iRet, err := imp.App.CreateUser(wx_id, userInfo)
+	iRet, err := imp.App.CreateUser(Wx_id, UserInfo)
 	if err != nil {
 		log.Error("Create user error with error message: ", err)
 		*RetCode = 404
@@ -32,11 +32,11 @@ func (imp *UserInfoServiceImp) SignUp(wx_id string, userInfo *LifeService.UserIn
 }
 
 //SignIn Judge if the user exist. If exist, return user info, otherwise, return error message
-func (imp *UserInfoServiceImp) SignIn(wx_id string, sRsp *LifeService.UserInfo) (int32, error) {
+func (imp *UserInfoServiceImp) SignIn(Wx_id string, SRsp *LifeService.UserInfo) (int32, error) {
 	var hasUser *bool
-	imp.App.HasUser(wx_id, hasUser)
+	imp.App.HasUser(Wx_id, hasUser)
 	if *hasUser {
-		_, err := imp.App.GetUserInfo(wx_id, sRsp)
+		_, err := imp.App.GetUserInfo(Wx_id, SRsp)
 		if err != nil {
 			log.Error("Call error: ", err)
 		}else{
@@ -48,12 +48,18 @@ func (imp *UserInfoServiceImp) SignIn(wx_id string, sRsp *LifeService.UserInfo) 
 }
 
 //GetUserPermissionInfo Get user permission info
-func (imp *UserInfoServiceImp) GetUserPermissionInfo(wx_id string) (int32, error) {
+func (imp *UserInfoServiceImp) GetUserPermissionInfo(Wx_id string) (int32, error) {
 	return 0, nil
 }
 
 //GetGroupList Get group list
-func (imp *UserInfoServiceImp) GetGroupList(groupInfo *map[int32]string) (int32, error) {
-	iRet, err := imp.App.GetGroupInfo(groupInfo)
+func (imp *UserInfoServiceImp) GetGroupList(GroupInfo *map[int32]string) (int32, error) {
+	iRet, err := imp.App.GetGroupInfo(GroupInfo)
 	return iRet, err
+}
+
+//Test test
+func (imp *UserInfoServiceImp) Test(TestStr *string) (int32, error) {
+	*TestStr = "Test Successfull"
+	return 0, nil
 }
