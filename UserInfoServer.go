@@ -22,9 +22,9 @@ func NewUserInfoServiceImp() *UserInfoServiceImp { //Init service
 
 func main() { //Init servant
 	comm = tars.NewCommunicator()
-	imp := NewUserInfoServiceImp()                                    //New Imp
+	imp := NewUserInfoServiceImp()                                    		//New Imp
 	app := new(LifeService.UserInfoService)                                 //New init the A Tars
-	cfg := tars.GetServerConfig()                               //Get Config File Object
-	app.AddServant(imp, cfg.App+"."+cfg.Server+".UserInfoServiceObj") //Register Servant
+	cfg := tars.GetServerConfig()                               			//Get Config File Object
+	app.AddServant(imp, cfg.App+"."+cfg.Server+".UserInfoServiceObj") 		//Register Servant
 	tars.Run()
 }

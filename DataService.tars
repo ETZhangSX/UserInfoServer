@@ -1,4 +1,3 @@
-
 module LifeService
 {
     struct UserInfo
@@ -17,6 +16,29 @@ module LifeService
         1 require bool   DBInt;
         2 require string columnValue;
     };
+
+    struct ClubInfo
+    {
+        0 require string clubId;
+        1 require string name;
+        2 require string chairman;
+        3 require string createTime;
+        4 require string introduction;
+    };
+
+    struct ActivityInfo
+    {
+        0 require  string activityId;
+        1 require  string sponsor;
+        2 require  string clubId;
+        3 require  string targetId;
+        4 optional string createTime;
+        5 optional string startTime;
+        6 optional string stopTime;
+        7 optional string registryStartTime;
+        8 optional string registryStopTime;
+        9 optional string content;
+    };
     
     interface DataService
     {
@@ -26,6 +48,13 @@ module LifeService
         int getGroupInfo(out map<int, string> groupInfo);
         int getGroupByUserId(string wx_id, out string group);
         int getGroupByGroupId(int groupId, out string group);
+
+        int createClub(ClubInfo clubInfo, out int iRetCode);
+        int getClubList(out vector<ClubInfo> clubInfoList);
+        // int createActivity(ActivityInfo activityInfo, out int iRetCode);
+        // int getActivityList(int index, out int nextIndex, out vector<map<string, string>> activityList);
+        // int getActivityDetail(string activityId, out ActivityInfo activityInfo);
+
         int insertData(string sTableName, vector<Column> sColumns);
         int queryData(string sTableName, vector<string> sColumns, string sCondition, out vector<map<string, string>> sRsp);
     };

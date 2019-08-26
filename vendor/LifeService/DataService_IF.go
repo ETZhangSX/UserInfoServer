@@ -576,6 +576,221 @@ func (_obj *DataService) GetGroupByGroupIdWithContext(ctx context.Context, Group
 	return ret, nil
 }
 
+//CreateClub is the proxy function for the method defined in the tars file, with the context
+func (_obj *DataService) CreateClub(ClubInfo *ClubInfo, IRetCode *int32, _opt ...map[string]string) (ret int32, err error) {
+
+	var length int32
+	var have bool
+	var ty byte
+	_os := codec.NewBuffer()
+	err = ClubInfo.WriteBlock(_os, 1)
+	if err != nil {
+		return ret, err
+	}
+
+	var _status map[string]string
+	var _context map[string]string
+	if len(_opt) == 1 {
+		_context = _opt[0]
+	} else if len(_opt) == 2 {
+		_context = _opt[0]
+		_status = _opt[1]
+	}
+	_resp := new(requestf.ResponsePacket)
+	ctx := context.Background()
+	err = _obj.s.Tars_invoke(ctx, 0, "createClub", _os.ToBytes(), _status, _context, _resp)
+	if err != nil {
+		return ret, err
+	}
+	_is := codec.NewReader(tools.Int8ToByte(_resp.SBuffer))
+	err = _is.Read_int32(&ret, 0, true)
+	if err != nil {
+		return ret, err
+	}
+
+	err = _is.Read_int32(&(*IRetCode), 2, true)
+	if err != nil {
+		return ret, err
+	}
+
+	_obj.setMap(len(_opt), _resp, _context, _status)
+	_ = length
+	_ = have
+	_ = ty
+	return ret, nil
+}
+
+//CreateClubWithContext is the proxy function for the method defined in the tars file, with the context
+func (_obj *DataService) CreateClubWithContext(ctx context.Context, ClubInfo *ClubInfo, IRetCode *int32, _opt ...map[string]string) (ret int32, err error) {
+
+	var length int32
+	var have bool
+	var ty byte
+	_os := codec.NewBuffer()
+	err = ClubInfo.WriteBlock(_os, 1)
+	if err != nil {
+		return ret, err
+	}
+
+	var _status map[string]string
+	var _context map[string]string
+	if len(_opt) == 1 {
+		_context = _opt[0]
+	} else if len(_opt) == 2 {
+		_context = _opt[0]
+		_status = _opt[1]
+	}
+	_resp := new(requestf.ResponsePacket)
+	err = _obj.s.Tars_invoke(ctx, 0, "createClub", _os.ToBytes(), _status, _context, _resp)
+	if err != nil {
+		return ret, err
+	}
+	_is := codec.NewReader(tools.Int8ToByte(_resp.SBuffer))
+	err = _is.Read_int32(&ret, 0, true)
+	if err != nil {
+		return ret, err
+	}
+
+	err = _is.Read_int32(&(*IRetCode), 2, true)
+	if err != nil {
+		return ret, err
+	}
+
+	_obj.setMap(len(_opt), _resp, _context, _status)
+	_ = length
+	_ = have
+	_ = ty
+	return ret, nil
+}
+
+//GetClubList is the proxy function for the method defined in the tars file, with the context
+func (_obj *DataService) GetClubList(ClubInfoList *[]ClubInfo, _opt ...map[string]string) (ret int32, err error) {
+
+	var length int32
+	var have bool
+	var ty byte
+	_os := codec.NewBuffer()
+
+	var _status map[string]string
+	var _context map[string]string
+	if len(_opt) == 1 {
+		_context = _opt[0]
+	} else if len(_opt) == 2 {
+		_context = _opt[0]
+		_status = _opt[1]
+	}
+	_resp := new(requestf.ResponsePacket)
+	ctx := context.Background()
+	err = _obj.s.Tars_invoke(ctx, 0, "getClubList", _os.ToBytes(), _status, _context, _resp)
+	if err != nil {
+		return ret, err
+	}
+	_is := codec.NewReader(tools.Int8ToByte(_resp.SBuffer))
+	err = _is.Read_int32(&ret, 0, true)
+	if err != nil {
+		return ret, err
+	}
+
+	err, _, ty = _is.SkipToNoCheck(1, true)
+	if err != nil {
+		return ret, err
+	}
+
+	if ty == codec.LIST {
+		err = _is.Read_int32(&length, 0, true)
+		if err != nil {
+			return ret, err
+		}
+		(*ClubInfoList) = make([]ClubInfo, length, length)
+		for i2, e2 := int32(0), length; i2 < e2; i2++ {
+
+			err = (*ClubInfoList)[i2].ReadBlock(_is, 0, false)
+			if err != nil {
+				return ret, err
+			}
+		}
+	} else if ty == codec.SIMPLE_LIST {
+		err = fmt.Errorf("not support simple_list type")
+		if err != nil {
+			return ret, err
+		}
+	} else {
+		err = fmt.Errorf("require vector, but not")
+		if err != nil {
+			return ret, err
+		}
+	}
+
+	_obj.setMap(len(_opt), _resp, _context, _status)
+	_ = length
+	_ = have
+	_ = ty
+	return ret, nil
+}
+
+//GetClubListWithContext is the proxy function for the method defined in the tars file, with the context
+func (_obj *DataService) GetClubListWithContext(ctx context.Context, ClubInfoList *[]ClubInfo, _opt ...map[string]string) (ret int32, err error) {
+
+	var length int32
+	var have bool
+	var ty byte
+	_os := codec.NewBuffer()
+	var _status map[string]string
+	var _context map[string]string
+	if len(_opt) == 1 {
+		_context = _opt[0]
+	} else if len(_opt) == 2 {
+		_context = _opt[0]
+		_status = _opt[1]
+	}
+	_resp := new(requestf.ResponsePacket)
+	err = _obj.s.Tars_invoke(ctx, 0, "getClubList", _os.ToBytes(), _status, _context, _resp)
+	if err != nil {
+		return ret, err
+	}
+	_is := codec.NewReader(tools.Int8ToByte(_resp.SBuffer))
+	err = _is.Read_int32(&ret, 0, true)
+	if err != nil {
+		return ret, err
+	}
+
+	err, _, ty = _is.SkipToNoCheck(1, true)
+	if err != nil {
+		return ret, err
+	}
+
+	if ty == codec.LIST {
+		err = _is.Read_int32(&length, 0, true)
+		if err != nil {
+			return ret, err
+		}
+		(*ClubInfoList) = make([]ClubInfo, length, length)
+		for i3, e3 := int32(0), length; i3 < e3; i3++ {
+
+			err = (*ClubInfoList)[i3].ReadBlock(_is, 0, false)
+			if err != nil {
+				return ret, err
+			}
+		}
+	} else if ty == codec.SIMPLE_LIST {
+		err = fmt.Errorf("not support simple_list type")
+		if err != nil {
+			return ret, err
+		}
+	} else {
+		err = fmt.Errorf("require vector, but not")
+		if err != nil {
+			return ret, err
+		}
+	}
+
+	_obj.setMap(len(_opt), _resp, _context, _status)
+	_ = length
+	_ = have
+	_ = ty
+	return ret, nil
+}
+
 //InsertData is the proxy function for the method defined in the tars file, with the context
 func (_obj *DataService) InsertData(STableName string, SColumns []Column, _opt ...map[string]string) (ret int32, err error) {
 
@@ -749,7 +964,7 @@ func (_obj *DataService) QueryData(STableName string, SColumns []string, SCondit
 			return ret, err
 		}
 		(*SRsp) = make([]map[string]string, length, length)
-		for i2, e2 := int32(0), length; i2 < e2; i2++ {
+		for i4, e4 := int32(0), length; i4 < e4; i4++ {
 
 			err, have = _is.SkipTo(codec.MAP, 0, false)
 			if err != nil {
@@ -760,22 +975,22 @@ func (_obj *DataService) QueryData(STableName string, SColumns []string, SCondit
 				if err != nil {
 					return ret, err
 				}
-				(*SRsp)[i2] = make(map[string]string)
-				for i3, e3 := int32(0), length; i3 < e3; i3++ {
-					var k3 string
-					var v3 string
+				(*SRsp)[i4] = make(map[string]string)
+				for i5, e5 := int32(0), length; i5 < e5; i5++ {
+					var k5 string
+					var v5 string
 
-					err = _is.Read_string(&k3, 0, false)
+					err = _is.Read_string(&k5, 0, false)
 					if err != nil {
 						return ret, err
 					}
 
-					err = _is.Read_string(&v3, 1, false)
+					err = _is.Read_string(&v5, 1, false)
 					if err != nil {
 						return ret, err
 					}
 
-					(*SRsp)[i2][k3] = v3
+					(*SRsp)[i4][k5] = v5
 				}
 			}
 		}
@@ -861,7 +1076,7 @@ func (_obj *DataService) QueryDataWithContext(ctx context.Context, STableName st
 			return ret, err
 		}
 		(*SRsp) = make([]map[string]string, length, length)
-		for i4, e4 := int32(0), length; i4 < e4; i4++ {
+		for i6, e6 := int32(0), length; i6 < e6; i6++ {
 
 			err, have = _is.SkipTo(codec.MAP, 0, false)
 			if err != nil {
@@ -872,22 +1087,22 @@ func (_obj *DataService) QueryDataWithContext(ctx context.Context, STableName st
 				if err != nil {
 					return ret, err
 				}
-				(*SRsp)[i4] = make(map[string]string)
-				for i5, e5 := int32(0), length; i5 < e5; i5++ {
-					var k5 string
-					var v5 string
+				(*SRsp)[i6] = make(map[string]string)
+				for i7, e7 := int32(0), length; i7 < e7; i7++ {
+					var k7 string
+					var v7 string
 
-					err = _is.Read_string(&k5, 0, false)
+					err = _is.Read_string(&k7, 0, false)
 					if err != nil {
 						return ret, err
 					}
 
-					err = _is.Read_string(&v5, 1, false)
+					err = _is.Read_string(&v7, 1, false)
 					if err != nil {
 						return ret, err
 					}
 
-					(*SRsp)[i4][k5] = v5
+					(*SRsp)[i6][k7] = v7
 				}
 			}
 		}
@@ -960,6 +1175,8 @@ type _impDataService interface {
 	GetGroupInfo(GroupInfo *map[int32]string) (ret int32, err error)
 	GetGroupByUserId(Wx_id string, Group *string) (ret int32, err error)
 	GetGroupByGroupId(GroupId int32, Group *string) (ret int32, err error)
+	CreateClub(ClubInfo *ClubInfo, IRetCode *int32) (ret int32, err error)
+	GetClubList(ClubInfoList *[]ClubInfo) (ret int32, err error)
 	InsertData(STableName string, SColumns []Column) (ret int32, err error)
 	QueryData(STableName string, SColumns []string, SCondition string, SRsp *[]map[string]string) (ret int32, err error)
 }
@@ -970,6 +1187,8 @@ type _impDataServiceWithContext interface {
 	GetGroupInfo(ctx context.Context, GroupInfo *map[int32]string) (ret int32, err error)
 	GetGroupByUserId(ctx context.Context, Wx_id string, Group *string) (ret int32, err error)
 	GetGroupByGroupId(ctx context.Context, GroupId int32, Group *string) (ret int32, err error)
+	CreateClub(ctx context.Context, ClubInfo *ClubInfo, IRetCode *int32) (ret int32, err error)
+	GetClubList(ctx context.Context, ClubInfoList *[]ClubInfo) (ret int32, err error)
 	InsertData(ctx context.Context, STableName string, SColumns []Column) (ret int32, err error)
 	QueryData(ctx context.Context, STableName string, SColumns []string, SCondition string, SRsp *[]map[string]string) (ret int32, err error)
 }
@@ -1142,14 +1361,14 @@ func getGroupInfo(ctx context.Context, _val interface{}, _os *codec.Buffer, _is 
 	if err != nil {
 		return err
 	}
-	for k6, v6 := range GroupInfo {
+	for k8, v8 := range GroupInfo {
 
-		err = _os.Write_int32(k6, 0)
+		err = _os.Write_int32(k8, 0)
 		if err != nil {
 			return err
 		}
 
-		err = _os.Write_string(v6, 1)
+		err = _os.Write_string(v8, 1)
 		if err != nil {
 			return err
 		}
@@ -1248,6 +1467,100 @@ func getGroupByGroupId(ctx context.Context, _val interface{}, _os *codec.Buffer,
 	_ = ty
 	return nil
 }
+func createClub(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec.Reader, withContext bool) (err error) {
+	var length int32
+	var have bool
+	var ty byte
+	var ClubInfo ClubInfo
+	err = ClubInfo.ReadBlock(_is, 1, true)
+	if err != nil {
+		return err
+	}
+	var IRetCode int32
+	if withContext == false {
+		_imp := _val.(_impDataService)
+		ret, err := _imp.CreateClub(&ClubInfo, &IRetCode)
+		if err != nil {
+			return err
+		}
+
+		err = _os.Write_int32(ret, 0)
+		if err != nil {
+			return err
+		}
+	} else {
+		_imp := _val.(_impDataServiceWithContext)
+		ret, err := _imp.CreateClub(ctx, &ClubInfo, &IRetCode)
+		if err != nil {
+			return err
+		}
+
+		err = _os.Write_int32(ret, 0)
+		if err != nil {
+			return err
+		}
+	}
+
+	err = _os.Write_int32(IRetCode, 2)
+	if err != nil {
+		return err
+	}
+
+	_ = length
+	_ = have
+	_ = ty
+	return nil
+}
+func getClubList(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec.Reader, withContext bool) (err error) {
+	var length int32
+	var have bool
+	var ty byte
+	var ClubInfoList []ClubInfo
+	if withContext == false {
+		_imp := _val.(_impDataService)
+		ret, err := _imp.GetClubList(&ClubInfoList)
+		if err != nil {
+			return err
+		}
+
+		err = _os.Write_int32(ret, 0)
+		if err != nil {
+			return err
+		}
+	} else {
+		_imp := _val.(_impDataServiceWithContext)
+		ret, err := _imp.GetClubList(ctx, &ClubInfoList)
+		if err != nil {
+			return err
+		}
+
+		err = _os.Write_int32(ret, 0)
+		if err != nil {
+			return err
+		}
+	}
+
+	err = _os.WriteHead(codec.LIST, 1)
+	if err != nil {
+		return err
+	}
+	err = _os.Write_int32(int32(len(ClubInfoList)), 0)
+	if err != nil {
+		return err
+	}
+	for _, v := range ClubInfoList {
+
+		err = v.WriteBlock(_os, 0)
+		if err != nil {
+			return err
+		}
+	}
+
+	_ = length
+	_ = have
+	_ = ty
+	return nil
+}
 func insertData(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec.Reader, withContext bool) (err error) {
 	var length int32
 	var have bool
@@ -1269,9 +1582,9 @@ func insertData(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *c
 			return err
 		}
 		SColumns = make([]Column, length, length)
-		for i7, e7 := int32(0), length; i7 < e7; i7++ {
+		for i9, e9 := int32(0), length; i9 < e9; i9++ {
 
-			err = SColumns[i7].ReadBlock(_is, 0, false)
+			err = SColumns[i9].ReadBlock(_is, 0, false)
 			if err != nil {
 				return err
 			}
@@ -1337,9 +1650,9 @@ func queryData(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *co
 			return err
 		}
 		SColumns = make([]string, length, length)
-		for i8, e8 := int32(0), length; i8 < e8; i8++ {
+		for i10, e10 := int32(0), length; i10 < e10; i10++ {
 
-			err = _is.Read_string(&SColumns[i8], 0, false)
+			err = _is.Read_string(&SColumns[i10], 0, false)
 			if err != nil {
 				return err
 			}
@@ -1403,14 +1716,14 @@ func queryData(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *co
 		if err != nil {
 			return err
 		}
-		for k9, v9 := range v {
+		for k11, v11 := range v {
 
-			err = _os.Write_string(k9, 0)
+			err = _os.Write_string(k11, 0)
 			if err != nil {
 				return err
 			}
 
-			err = _os.Write_string(v9, 1)
+			err = _os.Write_string(v11, 1)
 			if err != nil {
 				return err
 			}
@@ -1455,6 +1768,16 @@ func (_obj *DataService) Dispatch(ctx context.Context, _val interface{}, req *re
 		}
 	case "getGroupByGroupId":
 		err := getGroupByGroupId(ctx, _val, _os, _is, withContext)
+		if err != nil {
+			return err
+		}
+	case "createClub":
+		err := createClub(ctx, _val, _os, _is, withContext)
+		if err != nil {
+			return err
+		}
+	case "getClubList":
+		err := getClubList(ctx, _val, _os, _is, withContext)
 		if err != nil {
 			return err
 		}
