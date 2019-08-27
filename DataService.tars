@@ -9,7 +9,7 @@ module LifeService
         4 require string registration_time;
         5 require int    group;
     };
-
+    
     struct Column
     {
         0 require string columnName;
@@ -28,16 +28,17 @@ module LifeService
 
     struct ActivityInfo
     {
-        0 require  string activityId;
-        1 require  string sponsor;
-        2 require  string clubId;
-        3 require  string targetId;
-        4 optional string createTime;
-        5 optional string startTime;
-        6 optional string stopTime;
-        7 optional string registryStartTime;
-        8 optional string registryStopTime;
-        9 optional string content;
+        0  require  string activityId;
+        1  require  string name;
+        2  require  string sponsor;
+        3  require  string clubId;
+        4  optional string targetId;
+        5  optional string createTime;
+        6  optional string startTime;
+        7  optional string stopTime;
+        8  optional string registryStartTime;
+        9  optional string registryStopTime;
+        10 optional string content; 
     };
     
     interface DataService
@@ -57,6 +58,7 @@ module LifeService
 
         int insertData(string sTableName, vector<Column> sColumns);
         int queryData(string sTableName, vector<string> sColumns, string sCondition, out vector<map<string, string>> sRsp);
+        int getRecordCount(string sTableName, string sCondition, out int iCount);
     };
 
 }; 

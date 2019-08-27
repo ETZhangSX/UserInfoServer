@@ -11,6 +11,7 @@ import (
 //ActivityInfo strcut implement
 type ActivityInfo struct {
 	ActivityId        string `json:"activityId"`
+	Name              string `json:"name"`
 	Sponsor           string `json:"sponsor"`
 	ClubId            string `json:"clubId"`
 	TargetId          string `json:"targetId"`
@@ -38,47 +39,52 @@ func (st *ActivityInfo) ReadFrom(_is *codec.Reader) error {
 		return err
 	}
 
-	err = _is.Read_string(&st.Sponsor, 1, true)
+	err = _is.Read_string(&st.Name, 1, true)
 	if err != nil {
 		return err
 	}
 
-	err = _is.Read_string(&st.ClubId, 2, true)
+	err = _is.Read_string(&st.Sponsor, 2, true)
 	if err != nil {
 		return err
 	}
 
-	err = _is.Read_string(&st.TargetId, 3, true)
+	err = _is.Read_string(&st.ClubId, 3, true)
 	if err != nil {
 		return err
 	}
 
-	err = _is.Read_string(&st.CreateTime, 4, false)
+	err = _is.Read_string(&st.TargetId, 4, false)
 	if err != nil {
 		return err
 	}
 
-	err = _is.Read_string(&st.StartTime, 5, false)
+	err = _is.Read_string(&st.CreateTime, 5, false)
 	if err != nil {
 		return err
 	}
 
-	err = _is.Read_string(&st.StopTime, 6, false)
+	err = _is.Read_string(&st.StartTime, 6, false)
 	if err != nil {
 		return err
 	}
 
-	err = _is.Read_string(&st.RegistryStartTime, 7, false)
+	err = _is.Read_string(&st.StopTime, 7, false)
 	if err != nil {
 		return err
 	}
 
-	err = _is.Read_string(&st.RegistryStopTime, 8, false)
+	err = _is.Read_string(&st.RegistryStartTime, 8, false)
 	if err != nil {
 		return err
 	}
 
-	err = _is.Read_string(&st.Content, 9, false)
+	err = _is.Read_string(&st.RegistryStopTime, 9, false)
+	if err != nil {
+		return err
+	}
+
+	err = _is.Read_string(&st.Content, 10, false)
 	if err != nil {
 		return err
 	}
@@ -126,47 +132,52 @@ func (st *ActivityInfo) WriteTo(_os *codec.Buffer) error {
 		return err
 	}
 
-	err = _os.Write_string(st.Sponsor, 1)
+	err = _os.Write_string(st.Name, 1)
 	if err != nil {
 		return err
 	}
 
-	err = _os.Write_string(st.ClubId, 2)
+	err = _os.Write_string(st.Sponsor, 2)
 	if err != nil {
 		return err
 	}
 
-	err = _os.Write_string(st.TargetId, 3)
+	err = _os.Write_string(st.ClubId, 3)
 	if err != nil {
 		return err
 	}
 
-	err = _os.Write_string(st.CreateTime, 4)
+	err = _os.Write_string(st.TargetId, 4)
 	if err != nil {
 		return err
 	}
 
-	err = _os.Write_string(st.StartTime, 5)
+	err = _os.Write_string(st.CreateTime, 5)
 	if err != nil {
 		return err
 	}
 
-	err = _os.Write_string(st.StopTime, 6)
+	err = _os.Write_string(st.StartTime, 6)
 	if err != nil {
 		return err
 	}
 
-	err = _os.Write_string(st.RegistryStartTime, 7)
+	err = _os.Write_string(st.StopTime, 7)
 	if err != nil {
 		return err
 	}
 
-	err = _os.Write_string(st.RegistryStopTime, 8)
+	err = _os.Write_string(st.RegistryStartTime, 8)
 	if err != nil {
 		return err
 	}
 
-	err = _os.Write_string(st.Content, 9)
+	err = _os.Write_string(st.RegistryStopTime, 9)
+	if err != nil {
+		return err
+	}
+
+	err = _os.Write_string(st.Content, 10)
 	if err != nil {
 		return err
 	}

@@ -3,10 +3,12 @@
 module LifeService{
     
     interface UserInfoService{
-        int SignUp(string wx_id, UserInfo userInfo, out int retCode);
-        int SignIn(string wx_id, out UserInfo sRsp);
-        int GetUserPermissionInfo(string wx_id);
+        int SignUp(string wxId, UserInfo userInfo, out int retCode);
+        int SignIn(string wxId, out UserInfo sRsp);
+        int GetUserPermissionInfo(string wxId);
         int GetGroupList(out map<int, string> groupInfo);
-        int Test(out string TestStr);
+        int IsClubManager(string wxId, string clubId, out bool isClubManager);
+        int IsInClub(string wxId, string clubId, bool justInClub, out bool isIn);
+        int Test(out string testStr);
     };
 };

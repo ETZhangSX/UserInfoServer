@@ -1125,6 +1125,103 @@ func (_obj *DataService) QueryDataWithContext(ctx context.Context, STableName st
 	return ret, nil
 }
 
+//GetRecordCount is the proxy function for the method defined in the tars file, with the context
+func (_obj *DataService) GetRecordCount(STableName string, SCondition string, ICount *int32, _opt ...map[string]string) (ret int32, err error) {
+
+	var length int32
+	var have bool
+	var ty byte
+	_os := codec.NewBuffer()
+	err = _os.Write_string(STableName, 1)
+	if err != nil {
+		return ret, err
+	}
+
+	err = _os.Write_string(SCondition, 2)
+	if err != nil {
+		return ret, err
+	}
+
+	var _status map[string]string
+	var _context map[string]string
+	if len(_opt) == 1 {
+		_context = _opt[0]
+	} else if len(_opt) == 2 {
+		_context = _opt[0]
+		_status = _opt[1]
+	}
+	_resp := new(requestf.ResponsePacket)
+	ctx := context.Background()
+	err = _obj.s.Tars_invoke(ctx, 0, "getRecordCount", _os.ToBytes(), _status, _context, _resp)
+	if err != nil {
+		return ret, err
+	}
+	_is := codec.NewReader(tools.Int8ToByte(_resp.SBuffer))
+	err = _is.Read_int32(&ret, 0, true)
+	if err != nil {
+		return ret, err
+	}
+
+	err = _is.Read_int32(&(*ICount), 3, true)
+	if err != nil {
+		return ret, err
+	}
+
+	_obj.setMap(len(_opt), _resp, _context, _status)
+	_ = length
+	_ = have
+	_ = ty
+	return ret, nil
+}
+
+//GetRecordCountWithContext is the proxy function for the method defined in the tars file, with the context
+func (_obj *DataService) GetRecordCountWithContext(ctx context.Context, STableName string, SCondition string, ICount *int32, _opt ...map[string]string) (ret int32, err error) {
+
+	var length int32
+	var have bool
+	var ty byte
+	_os := codec.NewBuffer()
+	err = _os.Write_string(STableName, 1)
+	if err != nil {
+		return ret, err
+	}
+
+	err = _os.Write_string(SCondition, 2)
+	if err != nil {
+		return ret, err
+	}
+
+	var _status map[string]string
+	var _context map[string]string
+	if len(_opt) == 1 {
+		_context = _opt[0]
+	} else if len(_opt) == 2 {
+		_context = _opt[0]
+		_status = _opt[1]
+	}
+	_resp := new(requestf.ResponsePacket)
+	err = _obj.s.Tars_invoke(ctx, 0, "getRecordCount", _os.ToBytes(), _status, _context, _resp)
+	if err != nil {
+		return ret, err
+	}
+	_is := codec.NewReader(tools.Int8ToByte(_resp.SBuffer))
+	err = _is.Read_int32(&ret, 0, true)
+	if err != nil {
+		return ret, err
+	}
+
+	err = _is.Read_int32(&(*ICount), 3, true)
+	if err != nil {
+		return ret, err
+	}
+
+	_obj.setMap(len(_opt), _resp, _context, _status)
+	_ = length
+	_ = have
+	_ = ty
+	return ret, nil
+}
+
 //SetServant sets servant for the service.
 func (_obj *DataService) SetServant(s m.Servant) {
 	_obj.s = s
@@ -1179,6 +1276,7 @@ type _impDataService interface {
 	GetClubList(ClubInfoList *[]ClubInfo) (ret int32, err error)
 	InsertData(STableName string, SColumns []Column) (ret int32, err error)
 	QueryData(STableName string, SColumns []string, SCondition string, SRsp *[]map[string]string) (ret int32, err error)
+	GetRecordCount(STableName string, SCondition string, ICount *int32) (ret int32, err error)
 }
 type _impDataServiceWithContext interface {
 	HasUser(ctx context.Context, Wx_id string, SRsp *bool) (ret int32, err error)
@@ -1191,9 +1289,10 @@ type _impDataServiceWithContext interface {
 	GetClubList(ctx context.Context, ClubInfoList *[]ClubInfo) (ret int32, err error)
 	InsertData(ctx context.Context, STableName string, SColumns []Column) (ret int32, err error)
 	QueryData(ctx context.Context, STableName string, SColumns []string, SCondition string, SRsp *[]map[string]string) (ret int32, err error)
+	GetRecordCount(ctx context.Context, STableName string, SCondition string, ICount *int32) (ret int32, err error)
 }
 
-func HasUser(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec.Reader, withContext bool) (err error) {
+func hasUser(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec.Reader, withContext bool) (err error) {
 	var length int32
 	var have bool
 	var ty byte
@@ -1237,7 +1336,7 @@ func HasUser(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *code
 	_ = ty
 	return nil
 }
-func CreateUser(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec.Reader, withContext bool) (err error) {
+func createUser(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec.Reader, withContext bool) (err error) {
 	var length int32
 	var have bool
 	var ty byte
@@ -1280,7 +1379,7 @@ func CreateUser(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *c
 	_ = ty
 	return nil
 }
-func GetUserInfo(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec.Reader, withContext bool) (err error) {
+func getUserInfo(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec.Reader, withContext bool) (err error) {
 	var length int32
 	var have bool
 	var ty byte
@@ -1324,7 +1423,7 @@ func GetUserInfo(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *
 	_ = ty
 	return nil
 }
-func GetGroupInfo(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec.Reader, withContext bool) (err error) {
+func getGroupInfo(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec.Reader, withContext bool) (err error) {
 	var length int32
 	var have bool
 	var ty byte
@@ -1379,7 +1478,7 @@ func GetGroupInfo(ctx context.Context, _val interface{}, _os *codec.Buffer, _is 
 	_ = ty
 	return nil
 }
-func GetGroupByUserId(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec.Reader, withContext bool) (err error) {
+func getGroupByUserId(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec.Reader, withContext bool) (err error) {
 	var length int32
 	var have bool
 	var ty byte
@@ -1423,7 +1522,7 @@ func GetGroupByUserId(ctx context.Context, _val interface{}, _os *codec.Buffer, 
 	_ = ty
 	return nil
 }
-func GetGroupByGroupId(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec.Reader, withContext bool) (err error) {
+func getGroupByGroupId(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec.Reader, withContext bool) (err error) {
 	var length int32
 	var have bool
 	var ty byte
@@ -1467,7 +1566,7 @@ func GetGroupByGroupId(ctx context.Context, _val interface{}, _os *codec.Buffer,
 	_ = ty
 	return nil
 }
-func CreateClub(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec.Reader, withContext bool) (err error) {
+func createClub(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec.Reader, withContext bool) (err error) {
 	var length int32
 	var have bool
 	var ty byte
@@ -1511,7 +1610,7 @@ func CreateClub(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *c
 	_ = ty
 	return nil
 }
-func GetClubList(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec.Reader, withContext bool) (err error) {
+func getClubList(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec.Reader, withContext bool) (err error) {
 	var length int32
 	var have bool
 	var ty byte
@@ -1561,7 +1660,7 @@ func GetClubList(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *
 	_ = ty
 	return nil
 }
-func InsertData(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec.Reader, withContext bool) (err error) {
+func insertData(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec.Reader, withContext bool) (err error) {
 	var length int32
 	var have bool
 	var ty byte
@@ -1629,7 +1728,7 @@ func InsertData(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *c
 	_ = ty
 	return nil
 }
-func QueryData(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec.Reader, withContext bool) (err error) {
+func queryData(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec.Reader, withContext bool) (err error) {
 	var length int32
 	var have bool
 	var ty byte
@@ -1735,6 +1834,55 @@ func QueryData(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *co
 	_ = ty
 	return nil
 }
+func getRecordCount(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec.Reader, withContext bool) (err error) {
+	var length int32
+	var have bool
+	var ty byte
+	var STableName string
+	err = _is.Read_string(&STableName, 1, true)
+	if err != nil {
+		return err
+	}
+	var SCondition string
+	err = _is.Read_string(&SCondition, 2, true)
+	if err != nil {
+		return err
+	}
+	var ICount int32
+	if withContext == false {
+		_imp := _val.(_impDataService)
+		ret, err := _imp.GetRecordCount(STableName, SCondition, &ICount)
+		if err != nil {
+			return err
+		}
+
+		err = _os.Write_int32(ret, 0)
+		if err != nil {
+			return err
+		}
+	} else {
+		_imp := _val.(_impDataServiceWithContext)
+		ret, err := _imp.GetRecordCount(ctx, STableName, SCondition, &ICount)
+		if err != nil {
+			return err
+		}
+
+		err = _os.Write_int32(ret, 0)
+		if err != nil {
+			return err
+		}
+	}
+
+	err = _os.Write_int32(ICount, 3)
+	if err != nil {
+		return err
+	}
+
+	_ = length
+	_ = have
+	_ = ty
+	return nil
+}
 
 //Dispatch is used to call the server side implemnet for the method defined in the tars file. withContext shows using context or not.
 func (_obj *DataService) Dispatch(ctx context.Context, _val interface{}, req *requestf.RequestPacket, resp *requestf.ResponsePacket, withContext bool) (err error) {
@@ -1742,52 +1890,57 @@ func (_obj *DataService) Dispatch(ctx context.Context, _val interface{}, req *re
 	_os := codec.NewBuffer()
 	switch req.SFuncName {
 	case "hasUser":
-		err := HasUser(ctx, _val, _os, _is, withContext)
+		err := hasUser(ctx, _val, _os, _is, withContext)
 		if err != nil {
 			return err
 		}
 	case "createUser":
-		err := CreateUser(ctx, _val, _os, _is, withContext)
+		err := createUser(ctx, _val, _os, _is, withContext)
 		if err != nil {
 			return err
 		}
 	case "getUserInfo":
-		err := GetUserInfo(ctx, _val, _os, _is, withContext)
+		err := getUserInfo(ctx, _val, _os, _is, withContext)
 		if err != nil {
 			return err
 		}
 	case "getGroupInfo":
-		err := GetGroupInfo(ctx, _val, _os, _is, withContext)
+		err := getGroupInfo(ctx, _val, _os, _is, withContext)
 		if err != nil {
 			return err
 		}
 	case "getGroupByUserId":
-		err := GetGroupByUserId(ctx, _val, _os, _is, withContext)
+		err := getGroupByUserId(ctx, _val, _os, _is, withContext)
 		if err != nil {
 			return err
 		}
 	case "getGroupByGroupId":
-		err := GetGroupByGroupId(ctx, _val, _os, _is, withContext)
+		err := getGroupByGroupId(ctx, _val, _os, _is, withContext)
 		if err != nil {
 			return err
 		}
 	case "createClub":
-		err := CreateClub(ctx, _val, _os, _is, withContext)
+		err := createClub(ctx, _val, _os, _is, withContext)
 		if err != nil {
 			return err
 		}
 	case "getClubList":
-		err := GetClubList(ctx, _val, _os, _is, withContext)
+		err := getClubList(ctx, _val, _os, _is, withContext)
 		if err != nil {
 			return err
 		}
 	case "insertData":
-		err := InsertData(ctx, _val, _os, _is, withContext)
+		err := insertData(ctx, _val, _os, _is, withContext)
 		if err != nil {
 			return err
 		}
 	case "queryData":
-		err := QueryData(ctx, _val, _os, _is, withContext)
+		err := queryData(ctx, _val, _os, _is, withContext)
+		if err != nil {
+			return err
+		}
+	case "getRecordCount":
+		err := getRecordCount(ctx, _val, _os, _is, withContext)
 		if err != nil {
 			return err
 		}
