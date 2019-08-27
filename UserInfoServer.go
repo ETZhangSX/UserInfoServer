@@ -8,23 +8,16 @@ import (
 )
 
 var comm *tars.Communicator
-var log *rogger.Logger
 
-func NewUserInfoServiceImp() *UserInfoServiceImp { //Init service
-	app := new(LifeService.DataService)
-	obj := "LifeService.DataServer.DataServiceObj"
-	comm.StringToProxy(obj, app)
-	return &UserInfoServiceImp{
-		App: app,
-		Obj: obj,
-	}
-}
+//SLOG 日志打印
+var SLOG = rogger.GetLogger("ServerLog")
 
 func main() { //Init servant
 	comm = tars.NewCommunicator()
-	imp := NewUserInfoServiceImp()                                    		//New Imp
-	app := new(LifeService.UserInfoService)                                 //New init the A Tars
-	cfg := tars.GetServerConfig()                               			//Get Config File Object
-	app.AddServant(imp, cfg.App+"."+cfg.Server+".UserInfoServiceObj") 		//Register Servant
+	imp := new(UserInfoServiceImp)                                    //New Imp
+	imp.init()
+	app := new(LifeService.UserInfoService)                           //New init the A Tars
+	cfg := tars.GetServerConfig()                                     //Get Config File Object
+	app.AddServant(imp, cfg.App+"."+cfg.Server+".UserInfoServiceObj") //Register Servant
 	tars.Run()
 }

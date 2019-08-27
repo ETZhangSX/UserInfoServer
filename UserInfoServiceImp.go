@@ -1,16 +1,23 @@
 package main
 
 import (
-	"time"
 	"errors"
+	"time"
 
 	"LifeService"
 )
 
 //UserInfoServiceImp Interface implement
 type UserInfoServiceImp struct {
-	App *LifeService.DataService
-	Obj string
+	app     *LifeService.DataService
+	objName string
+}
+
+//init initialize struct
+func (imp *UserInfoServiceImp) init() {
+	imp.app = new(LifeService.DataService)
+	imp.objName = "LifeService.DataServer.DataServiceObj"
+	comm.StringToProxy(imp.objName, imp.app);
 }
 
 //SignUp Create a new account
@@ -19,13 +26,13 @@ func (imp *UserInfoServiceImp) SignUp(Wx_id string, UserInfo *LifeService.UserIn
 
 	UserInfo.Group = 0
 	UserInfo.Registration_time = currentTime
-	
-	iRet, err := imp.App.CreateUser(Wx_id, UserInfo)
+
+	iRet, err := imp.app.CreateUser(Wx_id, UserInfo)
 	if err != nil {
-		log.Error("Create user error with error message: ", err)
+		SLOG.Error("Create user error with error message: ", err)
 		*RetCode = 404
-	}else{
-		log.Debug("Create success")
+	} else {
+		SLOG.Debug("Create success")
 		*RetCode = 200
 	}
 	return iRet, nil
@@ -33,18 +40,24 @@ func (imp *UserInfoServiceImp) SignUp(Wx_id string, UserInfo *LifeService.UserIn
 
 //SignIn Judge if the user exist. If exist, return user info, otherwise, return error message
 func (imp *UserInfoServiceImp) SignIn(Wx_id string, SRsp *LifeService.UserInfo) (int32, error) {
-	var hasUser *bool
-	imp.App.HasUser(Wx_id, hasUser)
-	if *hasUser {
-		_, err := imp.App.GetUserInfo(Wx_id, SRsp)
-		if err != nil {
-			log.Error("Call error: ", err)
-		}else{
-			log.Debug("Call success")
-		}
-		return 0, nil
+	var HasUser bool
+	SLOG.Debug("SignIn")
+	_, err := imp.app.HasUser(Wx_id, &HasUser)
+	
+	if err != nil {
+		return -1, err
 	}
-	return -1, errors.New("User not found")
+	
+	if HasUser {
+		iRet, err := imp.app.GetUserInfo(Wx_id, SRsp)
+		if err != nil {
+			SLOG.Error("Call error: ", err)
+		} else {
+			SLOG.Debug("Call success")
+		}
+		return iRet, nil
+	}
+	return 404, errors.New("User not found")
 }
 
 //GetUserPermissionInfo Get user permission info
@@ -54,7 +67,8 @@ func (imp *UserInfoServiceImp) GetUserPermissionInfo(Wx_id string) (int32, error
 
 //GetGroupList Get group list
 func (imp *UserInfoServiceImp) GetGroupList(GroupInfo *map[int32]string) (int32, error) {
-	iRet, err := imp.App.GetGroupInfo(GroupInfo)
+	SLOG.Debug("getGroupInfo")
+	iRet, err := imp.app.GetGroupInfo(GroupInfo)
 	return iRet, err
 }
 
