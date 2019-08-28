@@ -20,13 +20,13 @@ type UserInfoService struct {
 }
 
 //SignUp is the proxy function for the method defined in the tars file, with the context
-func (_obj *UserInfoService) SignUp(Wx_id string, UserInfo *UserInfo, RetCode *int32, _opt ...map[string]string) (ret int32, err error) {
+func (_obj *UserInfoService) SignUp(WxId string, UserInfo *UserInfo, RetCode *int32, _opt ...map[string]string) (ret int32, err error) {
 
 	var length int32
 	var have bool
 	var ty byte
 	_os := codec.NewBuffer()
-	err = _os.Write_string(Wx_id, 1)
+	err = _os.Write_string(WxId, 1)
 	if err != nil {
 		return ret, err
 	}
@@ -69,13 +69,13 @@ func (_obj *UserInfoService) SignUp(Wx_id string, UserInfo *UserInfo, RetCode *i
 }
 
 //SignUpWithContext is the proxy function for the method defined in the tars file, with the context
-func (_obj *UserInfoService) SignUpWithContext(ctx context.Context, Wx_id string, UserInfo *UserInfo, RetCode *int32, _opt ...map[string]string) (ret int32, err error) {
+func (_obj *UserInfoService) SignUpWithContext(ctx context.Context, WxId string, UserInfo *UserInfo, RetCode *int32, _opt ...map[string]string) (ret int32, err error) {
 
 	var length int32
 	var have bool
 	var ty byte
 	_os := codec.NewBuffer()
-	err = _os.Write_string(Wx_id, 1)
+	err = _os.Write_string(WxId, 1)
 	if err != nil {
 		return ret, err
 	}
@@ -117,13 +117,13 @@ func (_obj *UserInfoService) SignUpWithContext(ctx context.Context, Wx_id string
 }
 
 //SignIn is the proxy function for the method defined in the tars file, with the context
-func (_obj *UserInfoService) SignIn(Wx_id string, SRsp *UserInfo, _opt ...map[string]string) (ret int32, err error) {
+func (_obj *UserInfoService) SignIn(WxId string, SRsp *UserInfo, _opt ...map[string]string) (ret int32, err error) {
 
 	var length int32
 	var have bool
 	var ty byte
 	_os := codec.NewBuffer()
-	err = _os.Write_string(Wx_id, 1)
+	err = _os.Write_string(WxId, 1)
 	if err != nil {
 		return ret, err
 	}
@@ -161,13 +161,13 @@ func (_obj *UserInfoService) SignIn(Wx_id string, SRsp *UserInfo, _opt ...map[st
 }
 
 //SignInWithContext is the proxy function for the method defined in the tars file, with the context
-func (_obj *UserInfoService) SignInWithContext(ctx context.Context, Wx_id string, SRsp *UserInfo, _opt ...map[string]string) (ret int32, err error) {
+func (_obj *UserInfoService) SignInWithContext(ctx context.Context, WxId string, SRsp *UserInfo, _opt ...map[string]string) (ret int32, err error) {
 
 	var length int32
 	var have bool
 	var ty byte
 	_os := codec.NewBuffer()
-	err = _os.Write_string(Wx_id, 1)
+	err = _os.Write_string(WxId, 1)
 	if err != nil {
 		return ret, err
 	}
@@ -204,13 +204,13 @@ func (_obj *UserInfoService) SignInWithContext(ctx context.Context, Wx_id string
 }
 
 //GetUserPermissionInfo is the proxy function for the method defined in the tars file, with the context
-func (_obj *UserInfoService) GetUserPermissionInfo(Wx_id string, _opt ...map[string]string) (ret int32, err error) {
+func (_obj *UserInfoService) GetUserPermissionInfo(WxId string, _opt ...map[string]string) (ret int32, err error) {
 
 	var length int32
 	var have bool
 	var ty byte
 	_os := codec.NewBuffer()
-	err = _os.Write_string(Wx_id, 1)
+	err = _os.Write_string(WxId, 1)
 	if err != nil {
 		return ret, err
 	}
@@ -243,13 +243,13 @@ func (_obj *UserInfoService) GetUserPermissionInfo(Wx_id string, _opt ...map[str
 }
 
 //GetUserPermissionInfoWithContext is the proxy function for the method defined in the tars file, with the context
-func (_obj *UserInfoService) GetUserPermissionInfoWithContext(ctx context.Context, Wx_id string, _opt ...map[string]string) (ret int32, err error) {
+func (_obj *UserInfoService) GetUserPermissionInfoWithContext(ctx context.Context, WxId string, _opt ...map[string]string) (ret int32, err error) {
 
 	var length int32
 	var have bool
 	var ty byte
 	_os := codec.NewBuffer()
-	err = _os.Write_string(Wx_id, 1)
+	err = _os.Write_string(WxId, 1)
 	if err != nil {
 		return ret, err
 	}
@@ -402,14 +402,111 @@ func (_obj *UserInfoService) GetGroupListWithContext(ctx context.Context, GroupI
 	return ret, nil
 }
 
-//IsInClub is the proxy function for the method defined in the tars file, with the context
-func (_obj *UserInfoService) IsInClub(Wx_id string, ClubId string, JustInClub bool, IsIn *bool, _opt ...map[string]string) (ret int32, err error) {
+//IsClubManager is the proxy function for the method defined in the tars file, with the context
+func (_obj *UserInfoService) IsClubManager(WxId string, ClubId string, IsClubManager *bool, _opt ...map[string]string) (ret int32, err error) {
 
 	var length int32
 	var have bool
 	var ty byte
 	_os := codec.NewBuffer()
-	err = _os.Write_string(Wx_id, 1)
+	err = _os.Write_string(WxId, 1)
+	if err != nil {
+		return ret, err
+	}
+
+	err = _os.Write_string(ClubId, 2)
+	if err != nil {
+		return ret, err
+	}
+
+	var _status map[string]string
+	var _context map[string]string
+	if len(_opt) == 1 {
+		_context = _opt[0]
+	} else if len(_opt) == 2 {
+		_context = _opt[0]
+		_status = _opt[1]
+	}
+	_resp := new(requestf.ResponsePacket)
+	ctx := context.Background()
+	err = _obj.s.Tars_invoke(ctx, 0, "IsClubManager", _os.ToBytes(), _status, _context, _resp)
+	if err != nil {
+		return ret, err
+	}
+	_is := codec.NewReader(tools.Int8ToByte(_resp.SBuffer))
+	err = _is.Read_int32(&ret, 0, true)
+	if err != nil {
+		return ret, err
+	}
+
+	err = _is.Read_bool(&(*IsClubManager), 3, true)
+	if err != nil {
+		return ret, err
+	}
+
+	_obj.setMap(len(_opt), _resp, _context, _status)
+	_ = length
+	_ = have
+	_ = ty
+	return ret, nil
+}
+
+//IsClubManagerWithContext is the proxy function for the method defined in the tars file, with the context
+func (_obj *UserInfoService) IsClubManagerWithContext(ctx context.Context, WxId string, ClubId string, IsClubManager *bool, _opt ...map[string]string) (ret int32, err error) {
+
+	var length int32
+	var have bool
+	var ty byte
+	_os := codec.NewBuffer()
+	err = _os.Write_string(WxId, 1)
+	if err != nil {
+		return ret, err
+	}
+
+	err = _os.Write_string(ClubId, 2)
+	if err != nil {
+		return ret, err
+	}
+
+	var _status map[string]string
+	var _context map[string]string
+	if len(_opt) == 1 {
+		_context = _opt[0]
+	} else if len(_opt) == 2 {
+		_context = _opt[0]
+		_status = _opt[1]
+	}
+	_resp := new(requestf.ResponsePacket)
+	err = _obj.s.Tars_invoke(ctx, 0, "IsClubManager", _os.ToBytes(), _status, _context, _resp)
+	if err != nil {
+		return ret, err
+	}
+	_is := codec.NewReader(tools.Int8ToByte(_resp.SBuffer))
+	err = _is.Read_int32(&ret, 0, true)
+	if err != nil {
+		return ret, err
+	}
+
+	err = _is.Read_bool(&(*IsClubManager), 3, true)
+	if err != nil {
+		return ret, err
+	}
+
+	_obj.setMap(len(_opt), _resp, _context, _status)
+	_ = length
+	_ = have
+	_ = ty
+	return ret, nil
+}
+
+//IsInClub is the proxy function for the method defined in the tars file, with the context
+func (_obj *UserInfoService) IsInClub(WxId string, ClubId string, JustInClub bool, IsIn *bool, _opt ...map[string]string) (ret int32, err error) {
+
+	var length int32
+	var have bool
+	var ty byte
+	_os := codec.NewBuffer()
+	err = _os.Write_string(WxId, 1)
 	if err != nil {
 		return ret, err
 	}
@@ -457,13 +554,13 @@ func (_obj *UserInfoService) IsInClub(Wx_id string, ClubId string, JustInClub bo
 }
 
 //IsInClubWithContext is the proxy function for the method defined in the tars file, with the context
-func (_obj *UserInfoService) IsInClubWithContext(ctx context.Context, Wx_id string, ClubId string, JustInClub bool, IsIn *bool, _opt ...map[string]string) (ret int32, err error) {
+func (_obj *UserInfoService) IsInClubWithContext(ctx context.Context, WxId string, ClubId string, JustInClub bool, IsIn *bool, _opt ...map[string]string) (ret int32, err error) {
 
 	var length int32
 	var have bool
 	var ty byte
 	_os := codec.NewBuffer()
-	err = _os.Write_string(Wx_id, 1)
+	err = _os.Write_string(WxId, 1)
 	if err != nil {
 		return ret, err
 	}
@@ -498,6 +595,103 @@ func (_obj *UserInfoService) IsInClubWithContext(ctx context.Context, Wx_id stri
 	}
 
 	err = _is.Read_bool(&(*IsIn), 4, true)
+	if err != nil {
+		return ret, err
+	}
+
+	_obj.setMap(len(_opt), _resp, _context, _status)
+	_ = length
+	_ = have
+	_ = ty
+	return ret, nil
+}
+
+//IsAppliedActivity is the proxy function for the method defined in the tars file, with the context
+func (_obj *UserInfoService) IsAppliedActivity(WxId string, ActivityId string, IsApplied *bool, _opt ...map[string]string) (ret int32, err error) {
+
+	var length int32
+	var have bool
+	var ty byte
+	_os := codec.NewBuffer()
+	err = _os.Write_string(WxId, 1)
+	if err != nil {
+		return ret, err
+	}
+
+	err = _os.Write_string(ActivityId, 2)
+	if err != nil {
+		return ret, err
+	}
+
+	var _status map[string]string
+	var _context map[string]string
+	if len(_opt) == 1 {
+		_context = _opt[0]
+	} else if len(_opt) == 2 {
+		_context = _opt[0]
+		_status = _opt[1]
+	}
+	_resp := new(requestf.ResponsePacket)
+	ctx := context.Background()
+	err = _obj.s.Tars_invoke(ctx, 0, "IsAppliedActivity", _os.ToBytes(), _status, _context, _resp)
+	if err != nil {
+		return ret, err
+	}
+	_is := codec.NewReader(tools.Int8ToByte(_resp.SBuffer))
+	err = _is.Read_int32(&ret, 0, true)
+	if err != nil {
+		return ret, err
+	}
+
+	err = _is.Read_bool(&(*IsApplied), 3, true)
+	if err != nil {
+		return ret, err
+	}
+
+	_obj.setMap(len(_opt), _resp, _context, _status)
+	_ = length
+	_ = have
+	_ = ty
+	return ret, nil
+}
+
+//IsAppliedActivityWithContext is the proxy function for the method defined in the tars file, with the context
+func (_obj *UserInfoService) IsAppliedActivityWithContext(ctx context.Context, WxId string, ActivityId string, IsApplied *bool, _opt ...map[string]string) (ret int32, err error) {
+
+	var length int32
+	var have bool
+	var ty byte
+	_os := codec.NewBuffer()
+	err = _os.Write_string(WxId, 1)
+	if err != nil {
+		return ret, err
+	}
+
+	err = _os.Write_string(ActivityId, 2)
+	if err != nil {
+		return ret, err
+	}
+
+	var _status map[string]string
+	var _context map[string]string
+	if len(_opt) == 1 {
+		_context = _opt[0]
+	} else if len(_opt) == 2 {
+		_context = _opt[0]
+		_status = _opt[1]
+	}
+	_resp := new(requestf.ResponsePacket)
+	err = _obj.s.Tars_invoke(ctx, 0, "IsAppliedActivity", _os.ToBytes(), _status, _context, _resp)
+	if err != nil {
+		return ret, err
+	}
+	_is := codec.NewReader(tools.Int8ToByte(_resp.SBuffer))
+	err = _is.Read_int32(&ret, 0, true)
+	if err != nil {
+		return ret, err
+	}
+
+	err = _is.Read_bool(&(*IsApplied), 3, true)
 	if err != nil {
 		return ret, err
 	}
@@ -631,19 +825,23 @@ func (_obj *UserInfoService) AddServantWithContext(imp _impUserInfoServiceWithCo
 }
 
 type _impUserInfoService interface {
-	SignUp(Wx_id string, UserInfo *UserInfo, RetCode *int32) (ret int32, err error)
-	SignIn(Wx_id string, SRsp *UserInfo) (ret int32, err error)
-	GetUserPermissionInfo(Wx_id string) (ret int32, err error)
+	SignUp(WxId string, UserInfo *UserInfo, RetCode *int32) (ret int32, err error)
+	SignIn(WxId string, SRsp *UserInfo) (ret int32, err error)
+	GetUserPermissionInfo(WxId string) (ret int32, err error)
 	GetGroupList(GroupInfo *map[int32]string) (ret int32, err error)
-	IsInClub(Wx_id string, ClubId string, JustInClub bool, IsIn *bool) (ret int32, err error)
+	IsClubManager(WxId string, ClubId string, IsClubManager *bool) (ret int32, err error)
+	IsInClub(WxId string, ClubId string, JustInClub bool, IsIn *bool) (ret int32, err error)
+	IsAppliedActivity(WxId string, ActivityId string, IsApplied *bool) (ret int32, err error)
 	Test(TestStr *string) (ret int32, err error)
 }
 type _impUserInfoServiceWithContext interface {
-	SignUp(ctx context.Context, Wx_id string, UserInfo *UserInfo, RetCode *int32) (ret int32, err error)
-	SignIn(ctx context.Context, Wx_id string, SRsp *UserInfo) (ret int32, err error)
-	GetUserPermissionInfo(ctx context.Context, Wx_id string) (ret int32, err error)
+	SignUp(ctx context.Context, WxId string, UserInfo *UserInfo, RetCode *int32) (ret int32, err error)
+	SignIn(ctx context.Context, WxId string, SRsp *UserInfo) (ret int32, err error)
+	GetUserPermissionInfo(ctx context.Context, WxId string) (ret int32, err error)
 	GetGroupList(ctx context.Context, GroupInfo *map[int32]string) (ret int32, err error)
-	IsInClub(ctx context.Context, Wx_id string, ClubId string, JustInClub bool, IsIn *bool) (ret int32, err error)
+	IsClubManager(ctx context.Context, WxId string, ClubId string, IsClubManager *bool) (ret int32, err error)
+	IsInClub(ctx context.Context, WxId string, ClubId string, JustInClub bool, IsIn *bool) (ret int32, err error)
+	IsAppliedActivity(ctx context.Context, WxId string, ActivityId string, IsApplied *bool) (ret int32, err error)
 	Test(ctx context.Context, TestStr *string) (ret int32, err error)
 }
 
@@ -651,8 +849,8 @@ func SignUp(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec
 	var length int32
 	var have bool
 	var ty byte
-	var Wx_id string
-	err = _is.Read_string(&Wx_id, 1, true)
+	var WxId string
+	err = _is.Read_string(&WxId, 1, true)
 	if err != nil {
 		return err
 	}
@@ -664,7 +862,7 @@ func SignUp(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec
 	var RetCode int32
 	if withContext == false {
 		_imp := _val.(_impUserInfoService)
-		ret, err := _imp.SignUp(Wx_id, &UserInfo, &RetCode)
+		ret, err := _imp.SignUp(WxId, &UserInfo, &RetCode)
 		if err != nil {
 			return err
 		}
@@ -675,7 +873,7 @@ func SignUp(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec
 		}
 	} else {
 		_imp := _val.(_impUserInfoServiceWithContext)
-		ret, err := _imp.SignUp(ctx, Wx_id, &UserInfo, &RetCode)
+		ret, err := _imp.SignUp(ctx, WxId, &UserInfo, &RetCode)
 		if err != nil {
 			return err
 		}
@@ -700,15 +898,15 @@ func SignIn(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec
 	var length int32
 	var have bool
 	var ty byte
-	var Wx_id string
-	err = _is.Read_string(&Wx_id, 1, true)
+	var WxId string
+	err = _is.Read_string(&WxId, 1, true)
 	if err != nil {
 		return err
 	}
 	var SRsp UserInfo
 	if withContext == false {
 		_imp := _val.(_impUserInfoService)
-		ret, err := _imp.SignIn(Wx_id, &SRsp)
+		ret, err := _imp.SignIn(WxId, &SRsp)
 		if err != nil {
 			return err
 		}
@@ -719,7 +917,7 @@ func SignIn(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec
 		}
 	} else {
 		_imp := _val.(_impUserInfoServiceWithContext)
-		ret, err := _imp.SignIn(ctx, Wx_id, &SRsp)
+		ret, err := _imp.SignIn(ctx, WxId, &SRsp)
 		if err != nil {
 			return err
 		}
@@ -744,14 +942,14 @@ func GetUserPermissionInfo(ctx context.Context, _val interface{}, _os *codec.Buf
 	var length int32
 	var have bool
 	var ty byte
-	var Wx_id string
-	err = _is.Read_string(&Wx_id, 1, true)
+	var WxId string
+	err = _is.Read_string(&WxId, 1, true)
 	if err != nil {
 		return err
 	}
 	if withContext == false {
 		_imp := _val.(_impUserInfoService)
-		ret, err := _imp.GetUserPermissionInfo(Wx_id)
+		ret, err := _imp.GetUserPermissionInfo(WxId)
 		if err != nil {
 			return err
 		}
@@ -762,7 +960,7 @@ func GetUserPermissionInfo(ctx context.Context, _val interface{}, _os *codec.Buf
 		}
 	} else {
 		_imp := _val.(_impUserInfoServiceWithContext)
-		ret, err := _imp.GetUserPermissionInfo(ctx, Wx_id)
+		ret, err := _imp.GetUserPermissionInfo(ctx, WxId)
 		if err != nil {
 			return err
 		}
@@ -833,12 +1031,61 @@ func GetGroupList(ctx context.Context, _val interface{}, _os *codec.Buffer, _is 
 	_ = ty
 	return nil
 }
+func IsClubManager(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec.Reader, withContext bool) (err error) {
+	var length int32
+	var have bool
+	var ty byte
+	var WxId string
+	err = _is.Read_string(&WxId, 1, true)
+	if err != nil {
+		return err
+	}
+	var ClubId string
+	err = _is.Read_string(&ClubId, 2, true)
+	if err != nil {
+		return err
+	}
+	var IsClubManager bool
+	if withContext == false {
+		_imp := _val.(_impUserInfoService)
+		ret, err := _imp.IsClubManager(WxId, ClubId, &IsClubManager)
+		if err != nil {
+			return err
+		}
+
+		err = _os.Write_int32(ret, 0)
+		if err != nil {
+			return err
+		}
+	} else {
+		_imp := _val.(_impUserInfoServiceWithContext)
+		ret, err := _imp.IsClubManager(ctx, WxId, ClubId, &IsClubManager)
+		if err != nil {
+			return err
+		}
+
+		err = _os.Write_int32(ret, 0)
+		if err != nil {
+			return err
+		}
+	}
+
+	err = _os.Write_bool(IsClubManager, 3)
+	if err != nil {
+		return err
+	}
+
+	_ = length
+	_ = have
+	_ = ty
+	return nil
+}
 func IsInClub(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec.Reader, withContext bool) (err error) {
 	var length int32
 	var have bool
 	var ty byte
-	var Wx_id string
-	err = _is.Read_string(&Wx_id, 1, true)
+	var WxId string
+	err = _is.Read_string(&WxId, 1, true)
 	if err != nil {
 		return err
 	}
@@ -855,7 +1102,7 @@ func IsInClub(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *cod
 	var IsIn bool
 	if withContext == false {
 		_imp := _val.(_impUserInfoService)
-		ret, err := _imp.IsInClub(Wx_id, ClubId, JustInClub, &IsIn)
+		ret, err := _imp.IsInClub(WxId, ClubId, JustInClub, &IsIn)
 		if err != nil {
 			return err
 		}
@@ -866,7 +1113,7 @@ func IsInClub(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *cod
 		}
 	} else {
 		_imp := _val.(_impUserInfoServiceWithContext)
-		ret, err := _imp.IsInClub(ctx, Wx_id, ClubId, JustInClub, &IsIn)
+		ret, err := _imp.IsInClub(ctx, WxId, ClubId, JustInClub, &IsIn)
 		if err != nil {
 			return err
 		}
@@ -878,6 +1125,55 @@ func IsInClub(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *cod
 	}
 
 	err = _os.Write_bool(IsIn, 4)
+	if err != nil {
+		return err
+	}
+
+	_ = length
+	_ = have
+	_ = ty
+	return nil
+}
+func IsAppliedActivity(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec.Reader, withContext bool) (err error) {
+	var length int32
+	var have bool
+	var ty byte
+	var WxId string
+	err = _is.Read_string(&WxId, 1, true)
+	if err != nil {
+		return err
+	}
+	var ActivityId string
+	err = _is.Read_string(&ActivityId, 2, true)
+	if err != nil {
+		return err
+	}
+	var IsApplied bool
+	if withContext == false {
+		_imp := _val.(_impUserInfoService)
+		ret, err := _imp.IsAppliedActivity(WxId, ActivityId, &IsApplied)
+		if err != nil {
+			return err
+		}
+
+		err = _os.Write_int32(ret, 0)
+		if err != nil {
+			return err
+		}
+	} else {
+		_imp := _val.(_impUserInfoServiceWithContext)
+		ret, err := _imp.IsAppliedActivity(ctx, WxId, ActivityId, &IsApplied)
+		if err != nil {
+			return err
+		}
+
+		err = _os.Write_int32(ret, 0)
+		if err != nil {
+			return err
+		}
+	}
+
+	err = _os.Write_bool(IsApplied, 3)
 	if err != nil {
 		return err
 	}
@@ -952,8 +1248,18 @@ func (_obj *UserInfoService) Dispatch(ctx context.Context, _val interface{}, req
 		if err != nil {
 			return err
 		}
+	case "IsClubManager":
+		err := IsClubManager(ctx, _val, _os, _is, withContext)
+		if err != nil {
+			return err
+		}
 	case "IsInClub":
 		err := IsInClub(ctx, _val, _os, _is, withContext)
+		if err != nil {
+			return err
+		}
+	case "IsAppliedActivity":
+		err := IsAppliedActivity(ctx, _val, _os, _is, withContext)
 		if err != nil {
 			return err
 		}

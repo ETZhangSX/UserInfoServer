@@ -22,13 +22,13 @@ func (imp *UserInfoServiceImp) init() {
 }
 
 //SignUp Create a new account
-func (imp *UserInfoServiceImp) SignUp(Wx_id string, UserInfo *LifeService.UserInfo, RetCode *int32) (int32, error) {
+func (imp *UserInfoServiceImp) SignUp(wxId string, UserInfo *LifeService.UserInfo, RetCode *int32) (int32, error) {
 	currentTime := time.Now().Format("2006-01-02 15:04:05")
 
 	UserInfo.Group = 0
 	UserInfo.Registration_time = currentTime
 
-	iRet, err := imp.app.CreateUser(Wx_id, UserInfo)
+	iRet, err := imp.app.CreateUser(wxId, UserInfo)
 	if err != nil {
 		SLOG.Error("Create user error with error message: ", err)
 		*RetCode = 400
@@ -45,17 +45,17 @@ func (imp *UserInfoServiceImp) SignUp(Wx_id string, UserInfo *LifeService.UserIn
 }
 
 //SignIn Judge if the user exist. If exist, return user info, otherwise, return error message
-func (imp *UserInfoServiceImp) SignIn(Wx_id string, SRsp *LifeService.UserInfo) (int32, error) {
+func (imp *UserInfoServiceImp) SignIn(wxId string, SRsp *LifeService.UserInfo) (int32, error) {
 	var HasUser bool
 	SLOG.Debug("SignIn")
-	_, err := imp.app.HasUser(Wx_id, &HasUser)
+	_, err := imp.app.HasUser(wxId, &HasUser)
 
 	if err != nil {
 		return -1, err
 	}
 
 	if HasUser {
-		iRet, err := imp.app.GetUserInfo(Wx_id, SRsp)
+		iRet, err := imp.app.GetUserInfo(wxId, SRsp)
 		if err != nil {
 			SLOG.Error("Call error: ", err)
 		} else {
@@ -79,11 +79,11 @@ func (imp *UserInfoServiceImp) GetGroupList(GroupInfo *map[int32]string) (int32,
 }
 
 //IsClubManager 是否是社团管理员
-func (imp *UserInfoServiceImp) IsClubManager(WxId string, ClubId string, isClubManager *bool) (int32, error) {
+func (imp *UserInfoServiceImp) IsClubManager(wxId string, ClubId string, isClubManager *bool) (int32, error) {
 	var sTableName = "club_managers"
-	var sCondition = "where `wx_id='" + WxId + "' and `club_id`=" + ClubId
+	var sCondition = "where `wx_id='" + wxId + "' and `club_id`=" + ClubId
 	var count int32
-	_,err := imp.app.GetRecordCount(sTableName, sCondition, &count)
+	_, err := imp.app.GetRecordCount(sTableName, sCondition, &count)
 
 	if err != nil {
 		SLOG.Error("UserInfoServer::IsClubManager error")
@@ -103,9 +103,9 @@ func (imp *UserInfoServiceImp) IsClubManager(WxId string, ClubId string, isClubM
 }
 
 //IsInClub 用户是否在社团中或已经申请社团
-func (imp *UserInfoServiceImp) IsInClub(WxId string, ClubId string, justInClub bool, isIn *bool) (int32, error) {
+func (imp *UserInfoServiceImp) IsInClub(wxId string, ClubId string, justInClub bool, isIn *bool) (int32, error) {
 	var sTableName = "apply_for_club"
-	var sCondition = "where `user_id`='" + WxId + "' and `club_id`=" + ClubId + " and `apply_status`"
+	var sCondition = "where `user_id`='" + wxId + "' and `club_id`=" + ClubId + " and `apply_status`"
 	if justInClub {
 		sCondition += "=0"
 	} else {
@@ -116,16 +116,39 @@ func (imp *UserInfoServiceImp) IsInClub(WxId string, ClubId string, justInClub b
 
 	if err != nil {
 		SLOG.Error("UserInfoServer::IsInClub error")
+		return -1, err
+	}
+	SLOG.Debug("UserInfoServer::IsInClub: " + strconv.Itoa(int(count)))
+	if count > 0 {
+		*isIn = true
+	} else if count == 0 {
+		*isIn = false
 	} else {
-		SLOG.Debug("UserInfoServer::IsInClub: " + strconv.Itoa(int(count)))
-		if count > 0 {
-			*isIn = true
-		} else if count == 0 {
-			*isIn = false
-		} else {
-			*isIn = false
-			return -1, errors.New("Get user club info failed")
-		}
+		*isIn = false
+		return -1, errors.New("Get user club info failed")
+	}
+	return 0, nil
+}
+
+//IsAppliedActivity 判断用户是否已经参加活动
+func (imp *UserInfoServiceImp) IsAppliedActivity(wxId string, activityId string, isApplied *bool) (int32, error) {
+	var sTableName = "activity_records"
+	var sCondition = "where `user_id`='" + wxId + "' and `activity_id`=" + activityId
+	var count int32
+	_,err := imp.app.GetRecordCount(sTableName, sCondition, &count)
+
+	if err != nil {
+		SLOG.Error("UserInfoServer::IsAppliedActivity error")
+		return -1, err
+	}
+	SLOG.Debug("UserInfoServer::IsAppliedActivity " + strconv.Itoa(int(count)))
+	if count > 0 {
+		*isApplied = true;
+	} else if count == 0 {
+		*isApplied = false
+	} else {
+		*isApplied = false
+		return -1, errors.New("Get Info for applied activity error")
 	}
 	return 0, nil
 }

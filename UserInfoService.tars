@@ -9,6 +9,7 @@ module LifeService{
         int GetGroupList(out map<int, string> groupInfo);
         int IsClubManager(string wxId, string clubId, out bool isClubManager);
         int IsInClub(string wxId, string clubId, bool justInClub, out bool isIn);
+        int IsAppliedActivity(string wxId, string activityId, out bool isApplied);
         int Test(out string testStr);
     };
 };
