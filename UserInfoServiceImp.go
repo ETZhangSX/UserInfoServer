@@ -23,6 +23,19 @@ func (imp *UserInfoServiceImp) init() {
 
 //SignUp Create a new account
 func (imp *UserInfoServiceImp) SignUp(wxId string, UserInfo *LifeService.UserInfo, RetCode *int32) (int32, error) {
+	// 判断号码是否存在
+	var hasPhone int32
+	iRet1, err1 := imp.app.GetRecordCount("users", "where `phone`='" + UserInfo.Phone + "'", &hasPhone)
+	if err1 != nil {
+		SLOG.Error("Create user error with error message: ", err1)
+		*RetCode = 400
+		return -iRet1, nil
+	}
+	if hasPhone > 0 {
+		return -1, errors.New("Phone number exist")
+	}
+
+	// 创建用户
 	currentTime := time.Now().Format("2006-01-02 15:04:05")
 
 	UserInfo.Group = 0
@@ -37,7 +50,7 @@ func (imp *UserInfoServiceImp) SignUp(wxId string, UserInfo *LifeService.UserInf
 			SLOG.Debug("Create success")
 			*RetCode = 200
 		} else {
-			SLOG.Debug("Create user fail: user exist.")
+			SLOG.Debug("Create user fail: user exist")
 			*RetCode = 300
 		}
 	}
