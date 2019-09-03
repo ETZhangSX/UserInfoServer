@@ -10,17 +10,17 @@ import (
 
 //ActivityInfo strcut implement
 type ActivityInfo struct {
-	ActivityId        string `json:"activityId"`
-	Name              string `json:"name"`
-	Sponsor           string `json:"sponsor"`
-	ClubId            string `json:"clubId"`
-	TargetId          string `json:"targetId"`
-	CreateTime        string `json:"createTime"`
-	StartTime         string `json:"startTime"`
-	StopTime          string `json:"stopTime"`
-	RegistryStartTime string `json:"registryStartTime"`
-	RegistryStopTime  string `json:"registryStopTime"`
-	Content           string `json:"content"`
+	Activity_id         string `json:"activity_id"`
+	Name                string `json:"name"`
+	Sponsor             string `json:"sponsor"`
+	Club_id             string `json:"club_id"`
+	Target_id           string `json:"target_id"`
+	Create_time         string `json:"create_time"`
+	Start_time          string `json:"start_time"`
+	Stop_time           string `json:"stop_time"`
+	Registry_start_time string `json:"registry_start_time"`
+	Registry_stop_time  string `json:"registry_stop_time"`
+	Content             string `json:"content"`
 }
 
 func (st *ActivityInfo) resetDefault() {
@@ -34,7 +34,7 @@ func (st *ActivityInfo) ReadFrom(_is *codec.Reader) error {
 	var ty byte
 	st.resetDefault()
 
-	err = _is.Read_string(&st.ActivityId, 0, true)
+	err = _is.Read_string(&st.Activity_id, 0, true)
 	if err != nil {
 		return err
 	}
@@ -49,37 +49,37 @@ func (st *ActivityInfo) ReadFrom(_is *codec.Reader) error {
 		return err
 	}
 
-	err = _is.Read_string(&st.ClubId, 3, true)
+	err = _is.Read_string(&st.Club_id, 3, true)
 	if err != nil {
 		return err
 	}
 
-	err = _is.Read_string(&st.TargetId, 4, false)
+	err = _is.Read_string(&st.Target_id, 4, false)
 	if err != nil {
 		return err
 	}
 
-	err = _is.Read_string(&st.CreateTime, 5, false)
+	err = _is.Read_string(&st.Create_time, 5, false)
 	if err != nil {
 		return err
 	}
 
-	err = _is.Read_string(&st.StartTime, 6, false)
+	err = _is.Read_string(&st.Start_time, 6, false)
 	if err != nil {
 		return err
 	}
 
-	err = _is.Read_string(&st.StopTime, 7, false)
+	err = _is.Read_string(&st.Stop_time, 7, false)
 	if err != nil {
 		return err
 	}
 
-	err = _is.Read_string(&st.RegistryStartTime, 8, false)
+	err = _is.Read_string(&st.Registry_start_time, 8, false)
 	if err != nil {
 		return err
 	}
 
-	err = _is.Read_string(&st.RegistryStopTime, 9, false)
+	err = _is.Read_string(&st.Registry_stop_time, 9, false)
 	if err != nil {
 		return err
 	}
@@ -127,7 +127,7 @@ func (st *ActivityInfo) ReadBlock(_is *codec.Reader, tag byte, require bool) err
 func (st *ActivityInfo) WriteTo(_os *codec.Buffer) error {
 	var err error
 
-	err = _os.Write_string(st.ActivityId, 0)
+	err = _os.Write_string(st.Activity_id, 0)
 	if err != nil {
 		return err
 	}
@@ -142,37 +142,37 @@ func (st *ActivityInfo) WriteTo(_os *codec.Buffer) error {
 		return err
 	}
 
-	err = _os.Write_string(st.ClubId, 3)
+	err = _os.Write_string(st.Club_id, 3)
 	if err != nil {
 		return err
 	}
 
-	err = _os.Write_string(st.TargetId, 4)
+	err = _os.Write_string(st.Target_id, 4)
 	if err != nil {
 		return err
 	}
 
-	err = _os.Write_string(st.CreateTime, 5)
+	err = _os.Write_string(st.Create_time, 5)
 	if err != nil {
 		return err
 	}
 
-	err = _os.Write_string(st.StartTime, 6)
+	err = _os.Write_string(st.Start_time, 6)
 	if err != nil {
 		return err
 	}
 
-	err = _os.Write_string(st.StopTime, 7)
+	err = _os.Write_string(st.Stop_time, 7)
 	if err != nil {
 		return err
 	}
 
-	err = _os.Write_string(st.RegistryStartTime, 8)
+	err = _os.Write_string(st.Registry_start_time, 8)
 	if err != nil {
 		return err
 	}
 
-	err = _os.Write_string(st.RegistryStopTime, 9)
+	err = _os.Write_string(st.Registry_stop_time, 9)
 	if err != nil {
 		return err
 	}
