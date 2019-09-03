@@ -8,47 +8,53 @@ import (
 	"github.com/TarsCloud/TarsGo/tars/protocol/codec"
 )
 
-//ClubInfo strcut implement
-type ClubInfo struct {
-	Club_id      string `json:"club_id"`
-	Name         string `json:"name"`
-	Chairman     string `json:"chairman"`
-	Create_time  string `json:"create_time"`
-	Introduction string `json:"introduction"`
+//Message strcut implement
+type Message struct {
+	Message_id   string `json:"message_id"`
+	User_id      string `json:"user_id"`
+	Content      string `json:"content"`
+	Anonymous    bool   `json:"anonymous"`
+	Message_time string `json:"message_time"`
+	Like_count   int32  `json:"like_count"`
 }
 
-func (st *ClubInfo) resetDefault() {
+func (st *Message) resetDefault() {
 }
 
 //ReadFrom reads  from _is and put into struct.
-func (st *ClubInfo) ReadFrom(_is *codec.Reader) error {
+func (st *Message) ReadFrom(_is *codec.Reader) error {
 	var err error
 	var length int32
 	var have bool
 	var ty byte
 	st.resetDefault()
 
-	err = _is.Read_string(&st.Club_id, 0, true)
+	err = _is.Read_string(&st.Message_id, 0, true)
 	if err != nil {
 		return err
 	}
 
-	err = _is.Read_string(&st.Name, 1, true)
+	err = _is.Read_string(&st.User_id, 1, true)
 	if err != nil {
 		return err
 	}
 
-	err = _is.Read_string(&st.Chairman, 2, true)
+	err = _is.Read_string(&st.Content, 2, true)
 	if err != nil {
 		return err
 	}
 
-	err = _is.Read_string(&st.Create_time, 3, true)
+	err = _is.Read_bool(&st.Anonymous, 3, true)
 	if err != nil {
 		return err
 	}
 
-	err = _is.Read_string(&st.Introduction, 4, true)
+	err = _is.Read_string(&st.Message_time, 4, true)
+	if err != nil {
+		return err
+	}
+
+	err = _is.Read_int32(&st.Like_count, 5, false)
 	if err != nil {
 		return err
 	}
@@ -60,7 +66,7 @@ func (st *ClubInfo) ReadFrom(_is *codec.Reader) error {
 }
 
 //ReadBlock reads struct from the given tag , require or optional.
-func (st *ClubInfo) ReadBlock(_is *codec.Reader, tag byte, require bool) error {
+func (st *Message) ReadBlock(_is *codec.Reader, tag byte, require bool) error {
 	var err error
 	var have bool
 	st.resetDefault()
@@ -71,7 +77,7 @@ func (st *ClubInfo) ReadBlock(_is *codec.Reader, tag byte, require bool) error {
 	}
 	if !have {
 		if require {
-			return fmt.Errorf("require ClubInfo, but not exist. tag %d", tag)
+			return fmt.Errorf("require Message, but not exist. tag %d", tag)
 		}
 		return nil
 
@@ -88,30 +94,35 @@ func (st *ClubInfo) ReadBlock(_is *codec.Reader, tag byte, require bool) error {
 }
 
 //WriteTo encode struct to buffer
-func (st *ClubInfo) WriteTo(_os *codec.Buffer) error {
+func (st *Message) WriteTo(_os *codec.Buffer) error {
 	var err error
 
-	err = _os.Write_string(st.Club_id, 0)
+	err = _os.Write_string(st.Message_id, 0)
 	if err != nil {
 		return err
 	}
 
-	err = _os.Write_string(st.Name, 1)
+	err = _os.Write_string(st.User_id, 1)
 	if err != nil {
 		return err
 	}
 
-	err = _os.Write_string(st.Chairman, 2)
+	err = _os.Write_string(st.Content, 2)
 	if err != nil {
 		return err
 	}
 
-	err = _os.Write_string(st.Create_time, 3)
+	err = _os.Write_bool(st.Anonymous, 3)
 	if err != nil {
 		return err
 	}
 
-	err = _os.Write_string(st.Introduction, 4)
+	err = _os.Write_string(st.Message_time, 4)
+	if err != nil {
+		return err
+	}
+
+	err = _os.Write_int32(st.Like_count, 5)
 	if err != nil {
 		return err
 	}
@@ -120,7 +131,7 @@ func (st *ClubInfo) WriteTo(_os *codec.Buffer) error {
 }
 
 //WriteBlock encode struct
-func (st *ClubInfo) WriteBlock(_os *codec.Buffer, tag byte) error {
+func (st *Message) WriteBlock(_os *codec.Buffer, tag byte) error {
 	var err error
 	err = _os.WriteHead(codec.STRUCT_BEGIN, tag)
 	if err != nil {

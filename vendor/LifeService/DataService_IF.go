@@ -791,6 +791,587 @@ func (_obj *DataService) GetClubListWithContext(ctx context.Context, ClubInfoLis
 	return ret, nil
 }
 
+//GetActivityList is the proxy function for the method defined in the tars file, with the context
+func (_obj *DataService) GetActivityList(Index int32, NextIndex *int32, ActivityList *[]map[string]string, _opt ...map[string]string) (ret int32, err error) {
+
+	var length int32
+	var have bool
+	var ty byte
+	_os := codec.NewBuffer()
+	err = _os.Write_int32(Index, 1)
+	if err != nil {
+		return ret, err
+	}
+
+	var _status map[string]string
+	var _context map[string]string
+	if len(_opt) == 1 {
+		_context = _opt[0]
+	} else if len(_opt) == 2 {
+		_context = _opt[0]
+		_status = _opt[1]
+	}
+	_resp := new(requestf.ResponsePacket)
+	ctx := context.Background()
+	err = _obj.s.Tars_invoke(ctx, 0, "getActivityList", _os.ToBytes(), _status, _context, _resp)
+	if err != nil {
+		return ret, err
+	}
+	_is := codec.NewReader(tools.Int8ToByte(_resp.SBuffer))
+	err = _is.Read_int32(&ret, 0, true)
+	if err != nil {
+		return ret, err
+	}
+
+	err = _is.Read_int32(&(*NextIndex), 2, true)
+	if err != nil {
+		return ret, err
+	}
+
+	err, _, ty = _is.SkipToNoCheck(3, true)
+	if err != nil {
+		return ret, err
+	}
+
+	if ty == codec.LIST {
+		err = _is.Read_int32(&length, 0, true)
+		if err != nil {
+			return ret, err
+		}
+		(*ActivityList) = make([]map[string]string, length, length)
+		for i4, e4 := int32(0), length; i4 < e4; i4++ {
+
+			err, have = _is.SkipTo(codec.MAP, 0, false)
+			if err != nil {
+				return ret, err
+			}
+			if have {
+				err = _is.Read_int32(&length, 0, true)
+				if err != nil {
+					return ret, err
+				}
+				(*ActivityList)[i4] = make(map[string]string)
+				for i5, e5 := int32(0), length; i5 < e5; i5++ {
+					var k5 string
+					var v5 string
+
+					err = _is.Read_string(&k5, 0, false)
+					if err != nil {
+						return ret, err
+					}
+
+					err = _is.Read_string(&v5, 1, false)
+					if err != nil {
+						return ret, err
+					}
+
+					(*ActivityList)[i4][k5] = v5
+				}
+			}
+		}
+	} else if ty == codec.SIMPLE_LIST {
+		err = fmt.Errorf("not support simple_list type")
+		if err != nil {
+			return ret, err
+		}
+	} else {
+		err = fmt.Errorf("require vector, but not")
+		if err != nil {
+			return ret, err
+		}
+	}
+
+	_obj.setMap(len(_opt), _resp, _context, _status)
+	_ = length
+	_ = have
+	_ = ty
+	return ret, nil
+}
+
+//GetActivityListWithContext is the proxy function for the method defined in the tars file, with the context
+func (_obj *DataService) GetActivityListWithContext(ctx context.Context, Index int32, NextIndex *int32, ActivityList *[]map[string]string, _opt ...map[string]string) (ret int32, err error) {
+
+	var length int32
+	var have bool
+	var ty byte
+	_os := codec.NewBuffer()
+	err = _os.Write_int32(Index, 1)
+	if err != nil {
+		return ret, err
+	}
+
+	var _status map[string]string
+	var _context map[string]string
+	if len(_opt) == 1 {
+		_context = _opt[0]
+	} else if len(_opt) == 2 {
+		_context = _opt[0]
+		_status = _opt[1]
+	}
+	_resp := new(requestf.ResponsePacket)
+	err = _obj.s.Tars_invoke(ctx, 0, "getActivityList", _os.ToBytes(), _status, _context, _resp)
+	if err != nil {
+		return ret, err
+	}
+	_is := codec.NewReader(tools.Int8ToByte(_resp.SBuffer))
+	err = _is.Read_int32(&ret, 0, true)
+	if err != nil {
+		return ret, err
+	}
+
+	err = _is.Read_int32(&(*NextIndex), 2, true)
+	if err != nil {
+		return ret, err
+	}
+
+	err, _, ty = _is.SkipToNoCheck(3, true)
+	if err != nil {
+		return ret, err
+	}
+
+	if ty == codec.LIST {
+		err = _is.Read_int32(&length, 0, true)
+		if err != nil {
+			return ret, err
+		}
+		(*ActivityList) = make([]map[string]string, length, length)
+		for i6, e6 := int32(0), length; i6 < e6; i6++ {
+
+			err, have = _is.SkipTo(codec.MAP, 0, false)
+			if err != nil {
+				return ret, err
+			}
+			if have {
+				err = _is.Read_int32(&length, 0, true)
+				if err != nil {
+					return ret, err
+				}
+				(*ActivityList)[i6] = make(map[string]string)
+				for i7, e7 := int32(0), length; i7 < e7; i7++ {
+					var k7 string
+					var v7 string
+
+					err = _is.Read_string(&k7, 0, false)
+					if err != nil {
+						return ret, err
+					}
+
+					err = _is.Read_string(&v7, 1, false)
+					if err != nil {
+						return ret, err
+					}
+
+					(*ActivityList)[i6][k7] = v7
+				}
+			}
+		}
+	} else if ty == codec.SIMPLE_LIST {
+		err = fmt.Errorf("not support simple_list type")
+		if err != nil {
+			return ret, err
+		}
+	} else {
+		err = fmt.Errorf("require vector, but not")
+		if err != nil {
+			return ret, err
+		}
+	}
+
+	_obj.setMap(len(_opt), _resp, _context, _status)
+	_ = length
+	_ = have
+	_ = ty
+	return ret, nil
+}
+
+//InsertMessage is the proxy function for the method defined in the tars file, with the context
+func (_obj *DataService) InsertMessage(Msg *Message, _opt ...map[string]string) (ret int32, err error) {
+
+	var length int32
+	var have bool
+	var ty byte
+	_os := codec.NewBuffer()
+	err = Msg.WriteBlock(_os, 1)
+	if err != nil {
+		return ret, err
+	}
+
+	var _status map[string]string
+	var _context map[string]string
+	if len(_opt) == 1 {
+		_context = _opt[0]
+	} else if len(_opt) == 2 {
+		_context = _opt[0]
+		_status = _opt[1]
+	}
+	_resp := new(requestf.ResponsePacket)
+	ctx := context.Background()
+	err = _obj.s.Tars_invoke(ctx, 0, "insertMessage", _os.ToBytes(), _status, _context, _resp)
+	if err != nil {
+		return ret, err
+	}
+	_is := codec.NewReader(tools.Int8ToByte(_resp.SBuffer))
+	err = _is.Read_int32(&ret, 0, true)
+	if err != nil {
+		return ret, err
+	}
+
+	_obj.setMap(len(_opt), _resp, _context, _status)
+	_ = length
+	_ = have
+	_ = ty
+	return ret, nil
+}
+
+//InsertMessageWithContext is the proxy function for the method defined in the tars file, with the context
+func (_obj *DataService) InsertMessageWithContext(ctx context.Context, Msg *Message, _opt ...map[string]string) (ret int32, err error) {
+
+	var length int32
+	var have bool
+	var ty byte
+	_os := codec.NewBuffer()
+	err = Msg.WriteBlock(_os, 1)
+	if err != nil {
+		return ret, err
+	}
+
+	var _status map[string]string
+	var _context map[string]string
+	if len(_opt) == 1 {
+		_context = _opt[0]
+	} else if len(_opt) == 2 {
+		_context = _opt[0]
+		_status = _opt[1]
+	}
+	_resp := new(requestf.ResponsePacket)
+	err = _obj.s.Tars_invoke(ctx, 0, "insertMessage", _os.ToBytes(), _status, _context, _resp)
+	if err != nil {
+		return ret, err
+	}
+	_is := codec.NewReader(tools.Int8ToByte(_resp.SBuffer))
+	err = _is.Read_int32(&ret, 0, true)
+	if err != nil {
+		return ret, err
+	}
+
+	_obj.setMap(len(_opt), _resp, _context, _status)
+	_ = length
+	_ = have
+	_ = ty
+	return ret, nil
+}
+
+//GetMsgList is the proxy function for the method defined in the tars file, with the context
+func (_obj *DataService) GetMsgList(Index int32, NextIndex *int32, MsgList *[]Message, _opt ...map[string]string) (ret int32, err error) {
+
+	var length int32
+	var have bool
+	var ty byte
+	_os := codec.NewBuffer()
+	err = _os.Write_int32(Index, 1)
+	if err != nil {
+		return ret, err
+	}
+
+	var _status map[string]string
+	var _context map[string]string
+	if len(_opt) == 1 {
+		_context = _opt[0]
+	} else if len(_opt) == 2 {
+		_context = _opt[0]
+		_status = _opt[1]
+	}
+	_resp := new(requestf.ResponsePacket)
+	ctx := context.Background()
+	err = _obj.s.Tars_invoke(ctx, 0, "getMsgList", _os.ToBytes(), _status, _context, _resp)
+	if err != nil {
+		return ret, err
+	}
+	_is := codec.NewReader(tools.Int8ToByte(_resp.SBuffer))
+	err = _is.Read_int32(&ret, 0, true)
+	if err != nil {
+		return ret, err
+	}
+
+	err = _is.Read_int32(&(*NextIndex), 2, true)
+	if err != nil {
+		return ret, err
+	}
+
+	err, _, ty = _is.SkipToNoCheck(3, true)
+	if err != nil {
+		return ret, err
+	}
+
+	if ty == codec.LIST {
+		err = _is.Read_int32(&length, 0, true)
+		if err != nil {
+			return ret, err
+		}
+		(*MsgList) = make([]Message, length, length)
+		for i8, e8 := int32(0), length; i8 < e8; i8++ {
+
+			err = (*MsgList)[i8].ReadBlock(_is, 0, false)
+			if err != nil {
+				return ret, err
+			}
+		}
+	} else if ty == codec.SIMPLE_LIST {
+		err = fmt.Errorf("not support simple_list type")
+		if err != nil {
+			return ret, err
+		}
+	} else {
+		err = fmt.Errorf("require vector, but not")
+		if err != nil {
+			return ret, err
+		}
+	}
+
+	_obj.setMap(len(_opt), _resp, _context, _status)
+	_ = length
+	_ = have
+	_ = ty
+	return ret, nil
+}
+
+//GetMsgListWithContext is the proxy function for the method defined in the tars file, with the context
+func (_obj *DataService) GetMsgListWithContext(ctx context.Context, Index int32, NextIndex *int32, MsgList *[]Message, _opt ...map[string]string) (ret int32, err error) {
+
+	var length int32
+	var have bool
+	var ty byte
+	_os := codec.NewBuffer()
+	err = _os.Write_int32(Index, 1)
+	if err != nil {
+		return ret, err
+	}
+
+	var _status map[string]string
+	var _context map[string]string
+	if len(_opt) == 1 {
+		_context = _opt[0]
+	} else if len(_opt) == 2 {
+		_context = _opt[0]
+		_status = _opt[1]
+	}
+	_resp := new(requestf.ResponsePacket)
+	err = _obj.s.Tars_invoke(ctx, 0, "getMsgList", _os.ToBytes(), _status, _context, _resp)
+	if err != nil {
+		return ret, err
+	}
+	_is := codec.NewReader(tools.Int8ToByte(_resp.SBuffer))
+	err = _is.Read_int32(&ret, 0, true)
+	if err != nil {
+		return ret, err
+	}
+
+	err = _is.Read_int32(&(*NextIndex), 2, true)
+	if err != nil {
+		return ret, err
+	}
+
+	err, _, ty = _is.SkipToNoCheck(3, true)
+	if err != nil {
+		return ret, err
+	}
+
+	if ty == codec.LIST {
+		err = _is.Read_int32(&length, 0, true)
+		if err != nil {
+			return ret, err
+		}
+		(*MsgList) = make([]Message, length, length)
+		for i9, e9 := int32(0), length; i9 < e9; i9++ {
+
+			err = (*MsgList)[i9].ReadBlock(_is, 0, false)
+			if err != nil {
+				return ret, err
+			}
+		}
+	} else if ty == codec.SIMPLE_LIST {
+		err = fmt.Errorf("not support simple_list type")
+		if err != nil {
+			return ret, err
+		}
+	} else {
+		err = fmt.Errorf("require vector, but not")
+		if err != nil {
+			return ret, err
+		}
+	}
+
+	_obj.setMap(len(_opt), _resp, _context, _status)
+	_ = length
+	_ = have
+	_ = ty
+	return ret, nil
+}
+
+//AddLike is the proxy function for the method defined in the tars file, with the context
+func (_obj *DataService) AddLike(Message_id string, _opt ...map[string]string) (ret int32, err error) {
+
+	var length int32
+	var have bool
+	var ty byte
+	_os := codec.NewBuffer()
+	err = _os.Write_string(Message_id, 1)
+	if err != nil {
+		return ret, err
+	}
+
+	var _status map[string]string
+	var _context map[string]string
+	if len(_opt) == 1 {
+		_context = _opt[0]
+	} else if len(_opt) == 2 {
+		_context = _opt[0]
+		_status = _opt[1]
+	}
+	_resp := new(requestf.ResponsePacket)
+	ctx := context.Background()
+	err = _obj.s.Tars_invoke(ctx, 0, "addLike", _os.ToBytes(), _status, _context, _resp)
+	if err != nil {
+		return ret, err
+	}
+	_is := codec.NewReader(tools.Int8ToByte(_resp.SBuffer))
+	err = _is.Read_int32(&ret, 0, true)
+	if err != nil {
+		return ret, err
+	}
+
+	_obj.setMap(len(_opt), _resp, _context, _status)
+	_ = length
+	_ = have
+	_ = ty
+	return ret, nil
+}
+
+//AddLikeWithContext is the proxy function for the method defined in the tars file, with the context
+func (_obj *DataService) AddLikeWithContext(ctx context.Context, Message_id string, _opt ...map[string]string) (ret int32, err error) {
+
+	var length int32
+	var have bool
+	var ty byte
+	_os := codec.NewBuffer()
+	err = _os.Write_string(Message_id, 1)
+	if err != nil {
+		return ret, err
+	}
+
+	var _status map[string]string
+	var _context map[string]string
+	if len(_opt) == 1 {
+		_context = _opt[0]
+	} else if len(_opt) == 2 {
+		_context = _opt[0]
+		_status = _opt[1]
+	}
+	_resp := new(requestf.ResponsePacket)
+	err = _obj.s.Tars_invoke(ctx, 0, "addLike", _os.ToBytes(), _status, _context, _resp)
+	if err != nil {
+		return ret, err
+	}
+	_is := codec.NewReader(tools.Int8ToByte(_resp.SBuffer))
+	err = _is.Read_int32(&ret, 0, true)
+	if err != nil {
+		return ret, err
+	}
+
+	_obj.setMap(len(_opt), _resp, _context, _status)
+	_ = length
+	_ = have
+	_ = ty
+	return ret, nil
+}
+
+//GetLike is the proxy function for the method defined in the tars file, with the context
+func (_obj *DataService) GetLike(Message_id string, Like_count *int32, _opt ...map[string]string) (ret int32, err error) {
+
+	var length int32
+	var have bool
+	var ty byte
+	_os := codec.NewBuffer()
+	err = _os.Write_string(Message_id, 1)
+	if err != nil {
+		return ret, err
+	}
+
+	var _status map[string]string
+	var _context map[string]string
+	if len(_opt) == 1 {
+		_context = _opt[0]
+	} else if len(_opt) == 2 {
+		_context = _opt[0]
+		_status = _opt[1]
+	}
+	_resp := new(requestf.ResponsePacket)
+	ctx := context.Background()
+	err = _obj.s.Tars_invoke(ctx, 0, "getLike", _os.ToBytes(), _status, _context, _resp)
+	if err != nil {
+		return ret, err
+	}
+	_is := codec.NewReader(tools.Int8ToByte(_resp.SBuffer))
+	err = _is.Read_int32(&ret, 0, true)
+	if err != nil {
+		return ret, err
+	}
+
+	err = _is.Read_int32(&(*Like_count), 2, true)
+	if err != nil {
+		return ret, err
+	}
+
+	_obj.setMap(len(_opt), _resp, _context, _status)
+	_ = length
+	_ = have
+	_ = ty
+	return ret, nil
+}
+
+//GetLikeWithContext is the proxy function for the method defined in the tars file, with the context
+func (_obj *DataService) GetLikeWithContext(ctx context.Context, Message_id string, Like_count *int32, _opt ...map[string]string) (ret int32, err error) {
+
+	var length int32
+	var have bool
+	var ty byte
+	_os := codec.NewBuffer()
+	err = _os.Write_string(Message_id, 1)
+	if err != nil {
+		return ret, err
+	}
+
+	var _status map[string]string
+	var _context map[string]string
+	if len(_opt) == 1 {
+		_context = _opt[0]
+	} else if len(_opt) == 2 {
+		_context = _opt[0]
+		_status = _opt[1]
+	}
+	_resp := new(requestf.ResponsePacket)
+	err = _obj.s.Tars_invoke(ctx, 0, "getLike", _os.ToBytes(), _status, _context, _resp)
+	if err != nil {
+		return ret, err
+	}
+	_is := codec.NewReader(tools.Int8ToByte(_resp.SBuffer))
+	err = _is.Read_int32(&ret, 0, true)
+	if err != nil {
+		return ret, err
+	}
+
+	err = _is.Read_int32(&(*Like_count), 2, true)
+	if err != nil {
+		return ret, err
+	}
+
+	_obj.setMap(len(_opt), _resp, _context, _status)
+	_ = length
+	_ = have
+	_ = ty
+	return ret, nil
+}
+
 //InsertData is the proxy function for the method defined in the tars file, with the context
 func (_obj *DataService) InsertData(STableName string, SColumns []Column, _opt ...map[string]string) (ret int32, err error) {
 
@@ -964,7 +1545,7 @@ func (_obj *DataService) QueryData(STableName string, SColumns []string, SCondit
 			return ret, err
 		}
 		(*SRsp) = make([]map[string]string, length, length)
-		for i4, e4 := int32(0), length; i4 < e4; i4++ {
+		for i10, e10 := int32(0), length; i10 < e10; i10++ {
 
 			err, have = _is.SkipTo(codec.MAP, 0, false)
 			if err != nil {
@@ -975,22 +1556,22 @@ func (_obj *DataService) QueryData(STableName string, SColumns []string, SCondit
 				if err != nil {
 					return ret, err
 				}
-				(*SRsp)[i4] = make(map[string]string)
-				for i5, e5 := int32(0), length; i5 < e5; i5++ {
-					var k5 string
-					var v5 string
+				(*SRsp)[i10] = make(map[string]string)
+				for i11, e11 := int32(0), length; i11 < e11; i11++ {
+					var k11 string
+					var v11 string
 
-					err = _is.Read_string(&k5, 0, false)
+					err = _is.Read_string(&k11, 0, false)
 					if err != nil {
 						return ret, err
 					}
 
-					err = _is.Read_string(&v5, 1, false)
+					err = _is.Read_string(&v11, 1, false)
 					if err != nil {
 						return ret, err
 					}
 
-					(*SRsp)[i4][k5] = v5
+					(*SRsp)[i10][k11] = v11
 				}
 			}
 		}
@@ -1076,7 +1657,7 @@ func (_obj *DataService) QueryDataWithContext(ctx context.Context, STableName st
 			return ret, err
 		}
 		(*SRsp) = make([]map[string]string, length, length)
-		for i6, e6 := int32(0), length; i6 < e6; i6++ {
+		for i12, e12 := int32(0), length; i12 < e12; i12++ {
 
 			err, have = _is.SkipTo(codec.MAP, 0, false)
 			if err != nil {
@@ -1087,22 +1668,22 @@ func (_obj *DataService) QueryDataWithContext(ctx context.Context, STableName st
 				if err != nil {
 					return ret, err
 				}
-				(*SRsp)[i6] = make(map[string]string)
-				for i7, e7 := int32(0), length; i7 < e7; i7++ {
-					var k7 string
-					var v7 string
+				(*SRsp)[i12] = make(map[string]string)
+				for i13, e13 := int32(0), length; i13 < e13; i13++ {
+					var k13 string
+					var v13 string
 
-					err = _is.Read_string(&k7, 0, false)
+					err = _is.Read_string(&k13, 0, false)
 					if err != nil {
 						return ret, err
 					}
 
-					err = _is.Read_string(&v7, 1, false)
+					err = _is.Read_string(&v13, 1, false)
 					if err != nil {
 						return ret, err
 					}
 
-					(*SRsp)[i6][k7] = v7
+					(*SRsp)[i12][k13] = v13
 				}
 			}
 		}
@@ -1274,6 +1855,11 @@ type _impDataService interface {
 	GetGroupByGroupId(GroupId int32, Group *string) (ret int32, err error)
 	CreateClub(ClubInfo *ClubInfo, IRetCode *int32) (ret int32, err error)
 	GetClubList(ClubInfoList *[]ClubInfo) (ret int32, err error)
+	GetActivityList(Index int32, NextIndex *int32, ActivityList *[]map[string]string) (ret int32, err error)
+	InsertMessage(Msg *Message) (ret int32, err error)
+	GetMsgList(Index int32, NextIndex *int32, MsgList *[]Message) (ret int32, err error)
+	AddLike(Message_id string) (ret int32, err error)
+	GetLike(Message_id string, Like_count *int32) (ret int32, err error)
 	InsertData(STableName string, SColumns []Column) (ret int32, err error)
 	QueryData(STableName string, SColumns []string, SCondition string, SRsp *[]map[string]string) (ret int32, err error)
 	GetRecordCount(STableName string, SCondition string, ICount *int32) (ret int32, err error)
@@ -1287,6 +1873,11 @@ type _impDataServiceWithContext interface {
 	GetGroupByGroupId(ctx context.Context, GroupId int32, Group *string) (ret int32, err error)
 	CreateClub(ctx context.Context, ClubInfo *ClubInfo, IRetCode *int32) (ret int32, err error)
 	GetClubList(ctx context.Context, ClubInfoList *[]ClubInfo) (ret int32, err error)
+	GetActivityList(ctx context.Context, Index int32, NextIndex *int32, ActivityList *[]map[string]string) (ret int32, err error)
+	InsertMessage(ctx context.Context, Msg *Message) (ret int32, err error)
+	GetMsgList(ctx context.Context, Index int32, NextIndex *int32, MsgList *[]Message) (ret int32, err error)
+	AddLike(ctx context.Context, Message_id string) (ret int32, err error)
+	GetLike(ctx context.Context, Message_id string, Like_count *int32) (ret int32, err error)
 	InsertData(ctx context.Context, STableName string, SColumns []Column) (ret int32, err error)
 	QueryData(ctx context.Context, STableName string, SColumns []string, SCondition string, SRsp *[]map[string]string) (ret int32, err error)
 	GetRecordCount(ctx context.Context, STableName string, SCondition string, ICount *int32) (ret int32, err error)
@@ -1460,14 +2051,14 @@ func getGroupInfo(ctx context.Context, _val interface{}, _os *codec.Buffer, _is 
 	if err != nil {
 		return err
 	}
-	for k8, v8 := range GroupInfo {
+	for k14, v14 := range GroupInfo {
 
-		err = _os.Write_int32(k8, 0)
+		err = _os.Write_int32(k14, 0)
 		if err != nil {
 			return err
 		}
 
-		err = _os.Write_string(v8, 1)
+		err = _os.Write_string(v14, 1)
 		if err != nil {
 			return err
 		}
@@ -1660,6 +2251,264 @@ func getClubList(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *
 	_ = ty
 	return nil
 }
+func getActivityList(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec.Reader, withContext bool) (err error) {
+	var length int32
+	var have bool
+	var ty byte
+	var Index int32
+	err = _is.Read_int32(&Index, 1, true)
+	if err != nil {
+		return err
+	}
+	var NextIndex int32
+	var ActivityList []map[string]string
+	if withContext == false {
+		_imp := _val.(_impDataService)
+		ret, err := _imp.GetActivityList(Index, &NextIndex, &ActivityList)
+		if err != nil {
+			return err
+		}
+
+		err = _os.Write_int32(ret, 0)
+		if err != nil {
+			return err
+		}
+	} else {
+		_imp := _val.(_impDataServiceWithContext)
+		ret, err := _imp.GetActivityList(ctx, Index, &NextIndex, &ActivityList)
+		if err != nil {
+			return err
+		}
+
+		err = _os.Write_int32(ret, 0)
+		if err != nil {
+			return err
+		}
+	}
+
+	err = _os.Write_int32(NextIndex, 2)
+	if err != nil {
+		return err
+	}
+
+	err = _os.WriteHead(codec.LIST, 3)
+	if err != nil {
+		return err
+	}
+	err = _os.Write_int32(int32(len(ActivityList)), 0)
+	if err != nil {
+		return err
+	}
+	for _, v := range ActivityList {
+
+		err = _os.WriteHead(codec.MAP, 0)
+		if err != nil {
+			return err
+		}
+		err = _os.Write_int32(int32(len(v)), 0)
+		if err != nil {
+			return err
+		}
+		for k15, v15 := range v {
+
+			err = _os.Write_string(k15, 0)
+			if err != nil {
+				return err
+			}
+
+			err = _os.Write_string(v15, 1)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	_ = length
+	_ = have
+	_ = ty
+	return nil
+}
+func insertMessage(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec.Reader, withContext bool) (err error) {
+	var length int32
+	var have bool
+	var ty byte
+	var Msg Message
+	err = Msg.ReadBlock(_is, 1, true)
+	if err != nil {
+		return err
+	}
+	if withContext == false {
+		_imp := _val.(_impDataService)
+		ret, err := _imp.InsertMessage(&Msg)
+		if err != nil {
+			return err
+		}
+
+		err = _os.Write_int32(ret, 0)
+		if err != nil {
+			return err
+		}
+	} else {
+		_imp := _val.(_impDataServiceWithContext)
+		ret, err := _imp.InsertMessage(ctx, &Msg)
+		if err != nil {
+			return err
+		}
+
+		err = _os.Write_int32(ret, 0)
+		if err != nil {
+			return err
+		}
+	}
+
+	_ = length
+	_ = have
+	_ = ty
+	return nil
+}
+func getMsgList(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec.Reader, withContext bool) (err error) {
+	var length int32
+	var have bool
+	var ty byte
+	var Index int32
+	err = _is.Read_int32(&Index, 1, true)
+	if err != nil {
+		return err
+	}
+	var NextIndex int32
+	var MsgList []Message
+	if withContext == false {
+		_imp := _val.(_impDataService)
+		ret, err := _imp.GetMsgList(Index, &NextIndex, &MsgList)
+		if err != nil {
+			return err
+		}
+
+		err = _os.Write_int32(ret, 0)
+		if err != nil {
+			return err
+		}
+	} else {
+		_imp := _val.(_impDataServiceWithContext)
+		ret, err := _imp.GetMsgList(ctx, Index, &NextIndex, &MsgList)
+		if err != nil {
+			return err
+		}
+
+		err = _os.Write_int32(ret, 0)
+		if err != nil {
+			return err
+		}
+	}
+
+	err = _os.Write_int32(NextIndex, 2)
+	if err != nil {
+		return err
+	}
+
+	err = _os.WriteHead(codec.LIST, 3)
+	if err != nil {
+		return err
+	}
+	err = _os.Write_int32(int32(len(MsgList)), 0)
+	if err != nil {
+		return err
+	}
+	for _, v := range MsgList {
+
+		err = v.WriteBlock(_os, 0)
+		if err != nil {
+			return err
+		}
+	}
+
+	_ = length
+	_ = have
+	_ = ty
+	return nil
+}
+func addLike(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec.Reader, withContext bool) (err error) {
+	var length int32
+	var have bool
+	var ty byte
+	var Message_id string
+	err = _is.Read_string(&Message_id, 1, true)
+	if err != nil {
+		return err
+	}
+	if withContext == false {
+		_imp := _val.(_impDataService)
+		ret, err := _imp.AddLike(Message_id)
+		if err != nil {
+			return err
+		}
+
+		err = _os.Write_int32(ret, 0)
+		if err != nil {
+			return err
+		}
+	} else {
+		_imp := _val.(_impDataServiceWithContext)
+		ret, err := _imp.AddLike(ctx, Message_id)
+		if err != nil {
+			return err
+		}
+
+		err = _os.Write_int32(ret, 0)
+		if err != nil {
+			return err
+		}
+	}
+
+	_ = length
+	_ = have
+	_ = ty
+	return nil
+}
+func getLike(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec.Reader, withContext bool) (err error) {
+	var length int32
+	var have bool
+	var ty byte
+	var Message_id string
+	err = _is.Read_string(&Message_id, 1, true)
+	if err != nil {
+		return err
+	}
+	var Like_count int32
+	if withContext == false {
+		_imp := _val.(_impDataService)
+		ret, err := _imp.GetLike(Message_id, &Like_count)
+		if err != nil {
+			return err
+		}
+
+		err = _os.Write_int32(ret, 0)
+		if err != nil {
+			return err
+		}
+	} else {
+		_imp := _val.(_impDataServiceWithContext)
+		ret, err := _imp.GetLike(ctx, Message_id, &Like_count)
+		if err != nil {
+			return err
+		}
+
+		err = _os.Write_int32(ret, 0)
+		if err != nil {
+			return err
+		}
+	}
+
+	err = _os.Write_int32(Like_count, 2)
+	if err != nil {
+		return err
+	}
+
+	_ = length
+	_ = have
+	_ = ty
+	return nil
+}
 func insertData(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec.Reader, withContext bool) (err error) {
 	var length int32
 	var have bool
@@ -1681,9 +2530,9 @@ func insertData(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *c
 			return err
 		}
 		SColumns = make([]Column, length, length)
-		for i9, e9 := int32(0), length; i9 < e9; i9++ {
+		for i16, e16 := int32(0), length; i16 < e16; i16++ {
 
-			err = SColumns[i9].ReadBlock(_is, 0, false)
+			err = SColumns[i16].ReadBlock(_is, 0, false)
 			if err != nil {
 				return err
 			}
@@ -1749,9 +2598,9 @@ func queryData(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *co
 			return err
 		}
 		SColumns = make([]string, length, length)
-		for i10, e10 := int32(0), length; i10 < e10; i10++ {
+		for i17, e17 := int32(0), length; i17 < e17; i17++ {
 
-			err = _is.Read_string(&SColumns[i10], 0, false)
+			err = _is.Read_string(&SColumns[i17], 0, false)
 			if err != nil {
 				return err
 			}
@@ -1815,14 +2664,14 @@ func queryData(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *co
 		if err != nil {
 			return err
 		}
-		for k11, v11 := range v {
+		for k18, v18 := range v {
 
-			err = _os.Write_string(k11, 0)
+			err = _os.Write_string(k18, 0)
 			if err != nil {
 				return err
 			}
 
-			err = _os.Write_string(v11, 1)
+			err = _os.Write_string(v18, 1)
 			if err != nil {
 				return err
 			}
@@ -1926,6 +2775,31 @@ func (_obj *DataService) Dispatch(ctx context.Context, _val interface{}, req *re
 		}
 	case "getClubList":
 		err := getClubList(ctx, _val, _os, _is, withContext)
+		if err != nil {
+			return err
+		}
+	case "getActivityList":
+		err := getActivityList(ctx, _val, _os, _is, withContext)
+		if err != nil {
+			return err
+		}
+	case "insertMessage":
+		err := insertMessage(ctx, _val, _os, _is, withContext)
+		if err != nil {
+			return err
+		}
+	case "getMsgList":
+		err := getMsgList(ctx, _val, _os, _is, withContext)
+		if err != nil {
+			return err
+		}
+	case "addLike":
+		err := addLike(ctx, _val, _os, _is, withContext)
+		if err != nil {
+			return err
+		}
+	case "getLike":
+		err := getLike(ctx, _val, _os, _is, withContext)
 		if err != nil {
 			return err
 		}

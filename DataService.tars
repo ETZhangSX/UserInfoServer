@@ -19,26 +19,36 @@ module LifeService
 
     struct ClubInfo
     {
-        0 require string clubId;
+        0 require string club_id;
         1 require string name;
         2 require string chairman;
-        3 require string createTime;
+        3 require string create_time;
         4 require string introduction;
     };
 
     struct ActivityInfo
     {
-        0  require  string activityId;
+        0  require  string activity_id;
         1  require  string name;
         2  require  string sponsor;
-        3  require  string clubId;
-        4  optional string targetId;
-        5  optional string createTime;
-        6  optional string startTime;
-        7  optional string stopTime;
-        8  optional string registryStartTime;
-        9  optional string registryStopTime;
+        3  require  string club_id;
+        4  optional string target_id;
+        5  optional string create_time;
+        6  optional string start_time;
+        7  optional string stop_time;
+        8  optional string registry_start_time;
+        9  optional string registry_stop_time;
         10 optional string content; 
+    };
+
+    struct Message
+    {
+        0 require  string message_id;
+        1 require  string user_id;
+        2 require  string content;
+        3 require  bool   anonymous;
+        4 require  string message_time;
+        5 optional int    like_count;
     };
     
     interface DataService
@@ -52,9 +62,15 @@ module LifeService
 
         int createClub(ClubInfo clubInfo, out int iRetCode);
         int getClubList(out vector<ClubInfo> clubInfoList);
+
         // int createActivity(ActivityInfo activityInfo, out int iRetCode);
-        // int getActivityList(int index, out int nextIndex, out vector<map<string, string>> activityList);
+        int getActivityList(int index, out int nextIndex, out vector<map<string, string>> activityList);
         // int getActivityDetail(string activityId, out ActivityInfo activityInfo);
+
+        int insertMessage(Message msg);
+        int getMsgList(int index, string date, string wx_id, out int nextIndex, out vector<Message> msgList);
+        int addLike(string message_id);
+        int getLike(string message_id, out int like_count);
 
         int insertData(string sTableName, vector<Column> sColumns);
         int queryData(string sTableName, vector<string> sColumns, string sCondition, out vector<map<string, string>> sRsp);
