@@ -26,6 +26,17 @@ module LifeService
         4 require string introduction;
     };
 
+    struct ApplyInfo
+    {
+        0 require  string apply_id;
+        1 require  string apply_time;
+        2 require  string wx_id;
+        3 require  string club_id;
+        4 optional string user_name;
+        5 optional string club_name;
+        6 optional string avatar_url;
+    };
+
     struct ActivityInfo
     {
         0  require  string activity_id;
@@ -38,34 +49,56 @@ module LifeService
         7  optional string stop_time;
         8  optional string registry_start_time;
         9  optional string registry_stop_time;
-        10 optional string content; 
+        10 optional string content;
+    };
+
+    struct ActivityRecord
+    {
+        0 require string wx_id;
+        1 require string user_name;
+        2 require string record_time;
     };
 
     struct Message
     {
         0 require  string message_id;
         1 require  string user_id;
-        2 require  string content;
-        3 require  bool   anonymous;
-        4 require  string message_time;
-        5 optional int    like_count;
+        2 require  string receiver;
+        3 require  string content;
+        4 require  bool   anonymous;
+        5 require  string message_time;
+        6 optional int    like_count;
+        7 optional string user_name;
     };
     
     interface DataService
     {
-        int hasUser(string wx_id, out bool sRsp);
-        int createUser(string wx_id, UserInfo UserInfo);
-        int getUserInfo(string wx_id, out UserInfo sRsp);
+        int hasUser(string wx_id, out bool userExist);
+        int hasPhone(string phone, out bool phoneExist);
+        int createUser(string wx_id, UserInfo userInfo);
+        int getUserInfo(string wx_id, out UserInfo userInfo);
         int getGroupInfo(out map<int, string> groupInfo);
-        int getGroupByUserId(string wx_id, out string group);
-        int getGroupByGroupId(int groupId, out string group);
 
-        int createClub(ClubInfo clubInfo, out int iRetCode);
-        int getClubList(out vector<ClubInfo> clubInfoList);
+        int createClubManager(string wx_id, string club_id);
+        int createClub(ClubInfo clubInfo, out string club_id);
+        int getClubList(int index, int batch, string wx_id, out int nextIndex, out vector<ClubInfo> clubInfoList);
+        int getManagerClubList(int index, int batch, string wx_id, out int nextIndex, out vector<ClubInfo> clubInfoList);
+        
+        int createApply(string wx_id, string club_id);
+        int getApplyListByClubId(string club_id, int index, int batch, int apply_status, out int nextIndex, out vector<ApplyInfo> applyList);
+        int getApplyListByUserId(string wx_id, int index, int batch, int apply_status, out int nextIndex, out vector<ApplyInfo> applyList);
+        int setApplyStatus(string wx_id, string club_id, int apply_status, out int iRetCode);
+        int deleteApply(string wx_id, string club_id, out int iRetCode);
+        
+        int createActivity(ActivityInfo activityInfo);
+        int getActivityList(int index, int batch, string wx_id, string club_id, out int nextIndex, out vector<map<string, string>> activityList);
+        int updateActivity(ActivityInfo activityIndo, out int iRetCode);
+        int deleteActivity(string activity_id, out int iRetCode);
+        int getActivityInfo(string activity_id, out ActivityInfo activityInfo);
 
-        // int createActivity(ActivityInfo activityInfo, out int iRetCode);
-        int getActivityList(int index, out int nextIndex, out vector<map<string, string>> activityList);
-        // int getActivityDetail(string activityId, out ActivityInfo activityInfo);
+        int createActivityRecord(string wx_id, string activity_id);
+        int getActivityRecords(int index, int batch, string activity_id, out int nextIndex, out vector<ActivityRecord> recordList);
+        int deleteActivityRecord(string activity_id, string wx_id, out int iRetCode);
 
         int insertMessage(Message msg);
         int getMsgList(int index, string date, string wx_id, out int nextIndex, out vector<Message> msgList);
