@@ -19,6 +19,93 @@ type UserInfoService struct {
 	s m.Servant
 }
 
+//HasPhone is the proxy function for the method defined in the tars file, with the context
+func (_obj *UserInfoService) HasPhone(Phone string, PhoneExist *bool, _opt ...map[string]string) (ret int32, err error) {
+
+	var length int32
+	var have bool
+	var ty byte
+	_os := codec.NewBuffer()
+	err = _os.Write_string(Phone, 1)
+	if err != nil {
+		return ret, err
+	}
+
+	var _status map[string]string
+	var _context map[string]string
+	if len(_opt) == 1 {
+		_context = _opt[0]
+	} else if len(_opt) == 2 {
+		_context = _opt[0]
+		_status = _opt[1]
+	}
+	_resp := new(requestf.ResponsePacket)
+	ctx := context.Background()
+	err = _obj.s.Tars_invoke(ctx, 0, "HasPhone", _os.ToBytes(), _status, _context, _resp)
+	if err != nil {
+		return ret, err
+	}
+	_is := codec.NewReader(tools.Int8ToByte(_resp.SBuffer))
+	err = _is.Read_int32(&ret, 0, true)
+	if err != nil {
+		return ret, err
+	}
+
+	err = _is.Read_bool(&(*PhoneExist), 2, true)
+	if err != nil {
+		return ret, err
+	}
+
+	_obj.setMap(len(_opt), _resp, _context, _status)
+	_ = length
+	_ = have
+	_ = ty
+	return ret, nil
+}
+
+//HasPhoneWithContext is the proxy function for the method defined in the tars file, with the context
+func (_obj *UserInfoService) HasPhoneWithContext(ctx context.Context, Phone string, PhoneExist *bool, _opt ...map[string]string) (ret int32, err error) {
+
+	var length int32
+	var have bool
+	var ty byte
+	_os := codec.NewBuffer()
+	err = _os.Write_string(Phone, 1)
+	if err != nil {
+		return ret, err
+	}
+
+	var _status map[string]string
+	var _context map[string]string
+	if len(_opt) == 1 {
+		_context = _opt[0]
+	} else if len(_opt) == 2 {
+		_context = _opt[0]
+		_status = _opt[1]
+	}
+	_resp := new(requestf.ResponsePacket)
+	err = _obj.s.Tars_invoke(ctx, 0, "HasPhone", _os.ToBytes(), _status, _context, _resp)
+	if err != nil {
+		return ret, err
+	}
+	_is := codec.NewReader(tools.Int8ToByte(_resp.SBuffer))
+	err = _is.Read_int32(&ret, 0, true)
+	if err != nil {
+		return ret, err
+	}
+
+	err = _is.Read_bool(&(*PhoneExist), 2, true)
+	if err != nil {
+		return ret, err
+	}
+
+	_obj.setMap(len(_opt), _resp, _context, _status)
+	_ = length
+	_ = have
+	_ = ty
+	return ret, nil
+}
+
 //SignUp is the proxy function for the method defined in the tars file, with the context
 func (_obj *UserInfoService) SignUp(WxId string, UserInfo *UserInfo, RetCode *int32, _opt ...map[string]string) (ret int32, err error) {
 
@@ -825,6 +912,7 @@ func (_obj *UserInfoService) AddServantWithContext(imp _impUserInfoServiceWithCo
 }
 
 type _impUserInfoService interface {
+	HasPhone(Phone string, PhoneExist *bool) (ret int32, err error)
 	SignUp(WxId string, UserInfo *UserInfo, RetCode *int32) (ret int32, err error)
 	SignIn(WxId string, SRsp *UserInfo) (ret int32, err error)
 	GetUserPermissionInfo(WxId string) (ret int32, err error)
@@ -835,6 +923,7 @@ type _impUserInfoService interface {
 	Test(TestStr *string) (ret int32, err error)
 }
 type _impUserInfoServiceWithContext interface {
+	HasPhone(ctx context.Context, Phone string, PhoneExist *bool) (ret int32, err error)
 	SignUp(ctx context.Context, WxId string, UserInfo *UserInfo, RetCode *int32) (ret int32, err error)
 	SignIn(ctx context.Context, WxId string, SRsp *UserInfo) (ret int32, err error)
 	GetUserPermissionInfo(ctx context.Context, WxId string) (ret int32, err error)
@@ -845,6 +934,50 @@ type _impUserInfoServiceWithContext interface {
 	Test(ctx context.Context, TestStr *string) (ret int32, err error)
 }
 
+func HasPhone(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec.Reader, withContext bool) (err error) {
+	var length int32
+	var have bool
+	var ty byte
+	var Phone string
+	err = _is.Read_string(&Phone, 1, true)
+	if err != nil {
+		return err
+	}
+	var PhoneExist bool
+	if withContext == false {
+		_imp := _val.(_impUserInfoService)
+		ret, err := _imp.HasPhone(Phone, &PhoneExist)
+		if err != nil {
+			return err
+		}
+
+		err = _os.Write_int32(ret, 0)
+		if err != nil {
+			return err
+		}
+	} else {
+		_imp := _val.(_impUserInfoServiceWithContext)
+		ret, err := _imp.HasPhone(ctx, Phone, &PhoneExist)
+		if err != nil {
+			return err
+		}
+
+		err = _os.Write_int32(ret, 0)
+		if err != nil {
+			return err
+		}
+	}
+
+	err = _os.Write_bool(PhoneExist, 2)
+	if err != nil {
+		return err
+	}
+
+	_ = length
+	_ = have
+	_ = ty
+	return nil
+}
 func SignUp(ctx context.Context, _val interface{}, _os *codec.Buffer, _is *codec.Reader, withContext bool) (err error) {
 	var length int32
 	var have bool
@@ -1228,6 +1361,11 @@ func (_obj *UserInfoService) Dispatch(ctx context.Context, _val interface{}, req
 	_is := codec.NewReader(tools.Int8ToByte(req.SBuffer))
 	_os := codec.NewBuffer()
 	switch req.SFuncName {
+	case "HasPhone":
+		err := HasPhone(ctx, _val, _os, _is, withContext)
+		if err != nil {
+			return err
+		}
 	case "SignUp":
 		err := SignUp(ctx, _val, _os, _is, withContext)
 		if err != nil {

@@ -3,6 +3,7 @@
 module LifeService{
     
     interface UserInfoService{
+        int HasPhone(string phone, out bool phoneExist);
         int SignUp(string wxId, UserInfo userInfo, out int retCode);
         int SignIn(string wxId, out UserInfo sRsp);
         int GetUserPermissionInfo(string wxId);
