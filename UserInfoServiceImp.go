@@ -21,27 +21,37 @@ func (imp *UserInfoServiceImp) init() {
 	comm.StringToProxy(imp.objName, imp.app)
 }
 
+//HasPhone 判断号码是否存在
+func (imp *UserInfoServiceImp) HasPhone(phone string, phoneExist *bool) (int32, error) {
+	_, err := imp.app.HasPhone(phone, phoneExist)
+	if err != nil {
+		SLOG.Error("Call Remote DataServer::HasPhone error: ", err.Error())
+		return -1, err
+	}
+	return 0, nil
+}
+
 //SignUp Create a new account
-func (imp *UserInfoServiceImp) SignUp(wxId string, UserInfo *LifeService.UserInfo, RetCode *int32) (int32, error) {
+func (imp *UserInfoServiceImp) SignUp(wxID string, userInfo *LifeService.UserInfo, RetCode *int32) (int32, error) {
 	// 判断号码是否存在
-	var hasPhone int32
-	iRet1, err1 := imp.app.GetRecordCount("users", "where `phone`='" + UserInfo.Phone + "'", &hasPhone)
+	var hasPhone bool
+	iRet1, err1 := imp.app.HasPhone(userInfo.Phone, &hasPhone)
 	if err1 != nil {
 		SLOG.Error("Create user error with error message: ", err1)
 		*RetCode = 400
 		return -iRet1, nil
 	}
-	if hasPhone > 0 {
+	if hasPhone {
 		return -1, errors.New("Phone number exist")
 	}
 
 	// 创建用户
 	currentTime := time.Now().Format("2006-01-02 15:04:05")
 
-	UserInfo.Group = 0
-	UserInfo.Registration_time = currentTime
+	userInfo.Group = 0
+	userInfo.Registration_time = currentTime
 
-	iRet, err := imp.app.CreateUser(wxId, UserInfo)
+	iRet, err := imp.app.CreateUser(wxID, userInfo)
 	if err != nil {
 		SLOG.Error("Create user error with error message: ", err)
 		*RetCode = 400
@@ -58,17 +68,17 @@ func (imp *UserInfoServiceImp) SignUp(wxId string, UserInfo *LifeService.UserInf
 }
 
 //SignIn Judge if the user exist. If exist, return user info, otherwise, return error message
-func (imp *UserInfoServiceImp) SignIn(wxId string, SRsp *LifeService.UserInfo) (int32, error) {
+func (imp *UserInfoServiceImp) SignIn(wxID string, userInfo *LifeService.UserInfo) (int32, error) {
 	var HasUser bool
 	SLOG.Debug("SignIn")
-	_, err := imp.app.HasUser(wxId, &HasUser)
+	_, err := imp.app.HasUser(wxID, &HasUser)
 
 	if err != nil {
 		return -1, err
 	}
 
 	if HasUser {
-		iRet, err := imp.app.GetUserInfo(wxId, SRsp)
+		iRet, err := imp.app.GetUserInfo(wxID, userInfo)
 		if err != nil {
 			SLOG.Error("Call error: ", err)
 		} else {
@@ -79,11 +89,6 @@ func (imp *UserInfoServiceImp) SignIn(wxId string, SRsp *LifeService.UserInfo) (
 	return 404, errors.New("User not found")
 }
 
-//GetUserPermissionInfo Get user permission info
-func (imp *UserInfoServiceImp) GetUserPermissionInfo(Wx_id string) (int32, error) {
-	return 0, nil
-}
-
 //GetGroupList Get group list
 func (imp *UserInfoServiceImp) GetGroupList(GroupInfo *map[int32]string) (int32, error) {
 	SLOG.Debug("getGroupInfo")
@@ -92,9 +97,9 @@ func (imp *UserInfoServiceImp) GetGroupList(GroupInfo *map[int32]string) (int32,
 }
 
 //IsClubManager 是否是社团管理员
-func (imp *UserInfoServiceImp) IsClubManager(wxId string, ClubId string, isClubManager *bool) (int32, error) {
+func (imp *UserInfoServiceImp) IsClubManager(wxID string, clubID string, isClubManager *bool) (int32, error) {
 	var sTableName = "club_managers"
-	var sCondition = "where `wx_id='" + wxId + "' and `club_id`=" + ClubId
+	var sCondition = "where `wx_id='" + wxID + "' and `club_id`=" + clubID
 	var count int32
 	_, err := imp.app.GetRecordCount(sTableName, sCondition, &count)
 
@@ -116,9 +121,9 @@ func (imp *UserInfoServiceImp) IsClubManager(wxId string, ClubId string, isClubM
 }
 
 //IsInClub 用户是否在社团中或已经申请社团
-func (imp *UserInfoServiceImp) IsInClub(wxId string, ClubId string, justInClub bool, isIn *bool) (int32, error) {
+func (imp *UserInfoServiceImp) IsInClub(wxID string, clubID string, justInClub bool, isIn *bool) (int32, error) {
 	var sTableName = "apply_for_club"
-	var sCondition = "where `user_id`='" + wxId + "' and `club_id`=" + ClubId + " and `apply_status`"
+	var sCondition = "where `user_id`='" + wxID + "' and `club_id`=" + clubID + " and `apply_status`"
 	if justInClub {
 		sCondition += "=0"
 	} else {
@@ -144,11 +149,11 @@ func (imp *UserInfoServiceImp) IsInClub(wxId string, ClubId string, justInClub b
 }
 
 //IsAppliedActivity 判断用户是否已经参加活动
-func (imp *UserInfoServiceImp) IsAppliedActivity(wxId string, activityId string, isApplied *bool) (int32, error) {
+func (imp *UserInfoServiceImp) IsAppliedActivity(wxID string, activityID string, isApplied *bool) (int32, error) {
 	var sTableName = "activity_records"
-	var sCondition = "where `user_id`='" + wxId + "' and `activity_id`=" + activityId
+	var sCondition = "where `user_id`='" + wxID + "' and `activity_id`=" + activityID
 	var count int32
-	_,err := imp.app.GetRecordCount(sTableName, sCondition, &count)
+	_, err := imp.app.GetRecordCount(sTableName, sCondition, &count)
 
 	if err != nil {
 		SLOG.Error("UserInfoServer::IsAppliedActivity error")
@@ -156,7 +161,7 @@ func (imp *UserInfoServiceImp) IsAppliedActivity(wxId string, activityId string,
 	}
 	SLOG.Debug("UserInfoServer::IsAppliedActivity " + strconv.Itoa(int(count)))
 	if count > 0 {
-		*isApplied = true;
+		*isApplied = true
 	} else if count == 0 {
 		*isApplied = false
 	} else {
