@@ -83,31 +83,32 @@ module LifeService
         int createClub(ClubInfo clubInfo, out string club_id);
         int getClubList(int index, int batch, string wx_id, out int nextIndex, out vector<ClubInfo> clubInfoList);
         int getManagerClubList(int index, int batch, string wx_id, out int nextIndex, out vector<ClubInfo> clubInfoList);
+        int getClubManagerCount(string wx_id, string club_id, out int count);
         
         int createApply(string wx_id, string club_id);
         int getApplyListByClubId(string club_id, int index, int batch, int apply_status, out int nextIndex, out vector<ApplyInfo> applyList);
         int getApplyListByUserId(string wx_id, int index, int batch, int apply_status, out int nextIndex, out vector<ApplyInfo> applyList);
-        int setApplyStatus(string wx_id, string club_id, int apply_status, out int iRetCode);
-        int deleteApply(string wx_id, string club_id, out int iRetCode);
+        int setApplyStatus(string wx_id, string club_id, int apply_status, out int affectRows);
+        int getApplyCount(string wx_id, string club_id, int apply_status, out int count);
+        int deleteApply(string wx_id, string club_id, out int affectRows);
         
         int createActivity(ActivityInfo activityInfo);
         int getActivityList(int index, int batch, string wx_id, string club_id, out int nextIndex, out vector<map<string, string>> activityList);
-        int updateActivity(ActivityInfo activityIndo, out int iRetCode);
-        int deleteActivity(string activity_id, out int iRetCode);
+        int updateActivity(ActivityInfo activityIndo, out int affectRows);
+        int deleteActivity(string activity_id, out int affectRows);
         int getActivityInfo(string activity_id, out ActivityInfo activityInfo);
 
         int createActivityRecord(string wx_id, string activity_id);
         int getActivityRecords(int index, int batch, string activity_id, out int nextIndex, out vector<ActivityRecord> recordList);
-        int deleteActivityRecord(string activity_id, string wx_id, out int iRetCode);
+        int getRecordCount(string wx_id, string activity_id, out int count);
+        int deleteActivityRecord(string activity_id, string wx_id, out int affectRows);
 
         int insertMessage(Message msg);
         int getMsgList(int index, string date, string wx_id, out int nextIndex, out vector<Message> msgList);
         int addLike(string message_id);
         int getLike(string message_id, out int like_count);
-
-        int insertData(string sTableName, vector<Column> sColumns);
-        int queryData(string sTableName, vector<string> sColumns, string sCondition, out vector<map<string, string>> sRsp);
-        int getRecordCount(string sTableName, string sCondition, out int iCount);
+        // int insertData(string sTableName, vector<Column> sColumns);
+        // int queryData(string sTableName, vector<string> sColumns, string sCondition, out vector<map<string, string>> sRsp);
     };
 
 }; 

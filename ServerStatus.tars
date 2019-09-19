@@ -1,0 +1,11 @@
+module LifeService
+{
+     enum ErrorCode
+    {
+        SUCCESS,
+        USERNOTEXIST,
+        USEREXIST,
+        PHONEEXIST,
+        SERVERERROR,
+    };
+};

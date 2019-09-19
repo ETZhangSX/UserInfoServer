@@ -1,13 +1,13 @@
 #include "DataService.tars"
+#include "ServerStatus.tars"
 
 module LifeService
 {
-    
     interface UserInfoService
     {
         int HasPhone(string phone, out bool phoneExist);
-        int SignUp(string wxId, UserInfo userInfo, out int retCode);
-        int SignIn(string wxId, out UserInfo userInfo);
+        int SignUp(string wxId, UserInfo userInfo, out ErrorCode errCode);
+        int SignIn(string wxId, out UserInfo userInfo, out ErrorCode errCode);
         int GetGroupList(out map<int, string> groupInfo);
         int IsClubManager(string wxId, string clubId, out bool isClubManager);
         int IsInClub(string wxId, string clubId, bool justInClub, out bool isIn);
