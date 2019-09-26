@@ -99,7 +99,7 @@ func (imp *UserInfoServiceImp) GetGroupList(GroupInfo *map[int32]string) (int32,
 //IsClubManager 是否是社团管理员
 func (imp *UserInfoServiceImp) IsClubManager(wxID string, clubID string, isClubManager *bool) (int32, error) {
 	var sTableName = "club_managers"
-	var sCondition = "where `wx_id='" + wxID + "' and `club_id`=" + clubID
+	var sCondition = "where `wx_id`='" + wxID + "' and `club_id`=" + clubID
 	var count int32
 	_, err := imp.app.GetRecordCount(sTableName, sCondition, &count)
 
@@ -125,7 +125,7 @@ func (imp *UserInfoServiceImp) IsInClub(wxID string, clubID string, justInClub b
 	var sTableName = "apply_for_club"
 	var sCondition = "where `user_id`='" + wxID + "' and `club_id`=" + clubID + " and `apply_status`"
 	if justInClub {
-		sCondition += "=0"
+		sCondition += "=1"
 	} else {
 		sCondition += "!=2"
 	}
