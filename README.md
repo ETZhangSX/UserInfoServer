@@ -1,6 +1,7 @@
 # UserInfoServer
 大学生活服务平台-用户信息服务，提供用户注册，信息获取
 
+服务接口可查看[接口文档](docs/RPC.md)
 ## 项目结构
 ```sh
 UserInfoServer
